@@ -1,50 +1,119 @@
+import java.util.Scanner;
 
 public class LoginManager {
-	
-	public static void displayLoginScreen()
+    
+    private static LoginManager loginmanager = null;
+    
+
+    public static LoginManager getInstance()
+    {
+    	if(loginmanager == null)
+    	{
+    		loginmanager = new LoginManager();
+    	}
+    	return loginmanager;
+    }
+    
+    
+    protected LoginManager()
+    {
+    	displayLoginScreen();
+    }
+
+    
+	private static void displayLoginScreen()
 	{
-		System.out.println("Hello, welcome to the university!" + 
-                             "Are you a new student? (y/n)");
-		//wait for input from user
-		//if y
-			//runNewStudent()
-		//elseif n
-			//runCurrentStudent()
-		//else reprompt for input
+		String userAnswer;
+		final String YES_ANSWER = "y";
+		final String NO_ANSWER = "n";
+		Scanner keyboardInput = new Scanner(System.in);
+		
+		System.out.print("Hello, welcome to the university! ");
+			
+		while (true)
+		{
+			System.out.print("Are you a new student? (y/n):");
+			userAnswer = keyboardInput.next();
+
+			if (userAnswer.equalsIgnoreCase(YES_ANSWER))
+			{
+				runNewStudent();
+				break;
+			}else if (userAnswer.equalsIgnoreCase(NO_ANSWER))
+			{
+				runCurrentStudent();
+				break;
+			}
+		}
 	}
 
 	
-	public static void runCurrentStudent()
+	private static void runCurrentStudent()
 	{
 		//starts the process for a current student logging in
 		SessionManager sm = new SessionManager();
 	}
 
 	
-	public static void runNewStudent()
-	{
+	private static void runNewStudent()
+	{		
 		String firstName = "";
 		String lastName = "";
 		String username = "";
 		String password = "";
 		
 		Boolean studentAddedToUniversity = false;
+		Boolean studentAddAttemptMade = false;
 		
-		//starts the process for a new student creating an account and
-		//starting a session
-		//calls University.addStudent
-		// ... need to prompt for the student's first and last name, and then
-		// for username, password, and then call
-		studentAddedToUniversity = University.addStudent(
-               firstName, lastName, username, password);
+		while (!studentAddedToUniversity)
+		{	
+			firstName = getItemOfUserInput("First name"); 
+			lastName = getItemOfUserInput("Last name");
+			username = getItemOfUserInput("Username");
+			password = getItemOfUserInput("Password");
+					
+			studentAddedToUniversity = University.addStudent(firstName, lastName, username, password);
+			
+			if (!studentAddedToUniversity)
+			{
+				System.out.println("There was a problem adding your student record. Please enter your information again.");
+			}
+		}
 		
-		//if addStudent attempt was successful
-          //prompt student to take next step
-		//else
-          //prompt student to re-enter info (this won't give a helpful
-          //error message, just because it won't know why add attempt
-          //wasn't successful
+		runCurrentStudent();
+	}
+
+	
+	private static String getItemOfUserInput(String itemTitle)
+	{
+		final String ITEM_TITLE_PASSWORD = "password";
+		Scanner keyboardInput = new Scanner(System.in);
+		
+		String itemValue = "";
+		String userInput = "";
+		
+		while (itemValue.length() < 1)
+		{
+			System.out.print(itemTitle + ": ");
+			userInput = keyboardInput.next();
+	
+			if (itemTitle.equalsIgnoreCase(ITEM_TITLE_PASSWORD))
+			{
+				if (PasswordManager.isMinLength(userInput))
+				{
+					itemValue = userInput;
+				}else
+				{
+					System.out.println("The password you chose is too short.");
+				}
+			}
+			else if (userInput.length() > 0)
+			{
+				itemValue = userInput;
+			}
+		}
+		
+		return itemValue;
 	}
 	
 }
-

@@ -2,25 +2,20 @@ import java.util.*;
 
 public class PasswordManager {
 
-	private static final int USERNAME_MIN_LENGTH = 5;
-	private static final int PASSWORD_MIN_LENGTH = 5;
+	private static final int USERNAME_PASSWORD_MIN_LENGTH = 5;
 	
 	
 	//I think of this as, "createLogin", and passwords.txt as the file that
 	//stores login info (rather than pwds specifically)
-	//Does this method prompt the student for a new username, pwd, and student's
-	//first and last names?
-	public static Boolean createPassword(
-          Student student, String username, String password)
+	public static Boolean createPassword(Student student, String username, String password)
 	{
 		//if the username is empty, or the pwd is, return false and don't
 		//create the pwd in the data file
-		if(username.length() < USERNAME_MIN_LENGTH || 
-             password.length() < PASSWORD_MIN_LENGTH)
+		if(username.length() < USERNAME_PASSWORD_MIN_LENGTH || password.length() < USERNAME_PASSWORD_MIN_LENGTH)
 		{
 			return false;
 		}
-          else if (!student.isValid())
+          else if (student == null) //do we need to check that student is valid, more deeply than this check?
 		{
 			return false;
 		}
@@ -31,10 +26,9 @@ public class PasswordManager {
 		}
 	}
 	
-	//test the length of the password. 
 	public static Boolean isMinLength(String password)
 	{
-		return (password.length() >= PASSWORD_MIN_LENGTH);
+		return (password.length() >= USERNAME_PASSWORD_MIN_LENGTH);
 	}
 	
 	//asks for username, password, and returns the student ID if the u+p are valid
