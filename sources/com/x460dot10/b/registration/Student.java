@@ -3,13 +3,12 @@
 //they'll still pass/fail accordingly.
 public class Student {
 
-	private int studentID;
-	
-	public Student(int studentID)
-	{
-		this.studentID = studentID;
-	}
-	
+     private int studentID;
+  
+     public Student(int studentID)
+     {
+          this.studentID = studentID;
+     }
 	
 	public Boolean isValid()
 	{
@@ -20,5 +19,4 @@ public class Student {
 			return false;
 		}
 	}
-	
 }
