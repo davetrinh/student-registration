@@ -1,4 +1,4 @@
-//not sure if I'll end up using this class at all. 
+//not sure if we'll end up using this class at all. 
 
 public class Password {
 
