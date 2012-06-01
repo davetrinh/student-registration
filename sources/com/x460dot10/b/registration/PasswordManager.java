@@ -1,46 +1,86 @@
 import java.util.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.util.ArrayList;
+
+//I want to import org.apache...StringUtils, is assoc w/this project, but is throwing an error when I attempt it. 
+
 
 public class PasswordManager {
 
-	private static final int USERNAME_PASSWORD_MIN_LENGTH = 5;
+	private final int PASSWORD_MIN_LENGTH = 5;
+	private ArrayList<Password> passwords = new ArrayList<Password>;
+	
+	private static PasswordManager passwordmanager = null;
 	
 	
-	//I think of this as, "createLogin", and passwords.txt as the file that
-	//stores login info (rather than pwds specifically)
-	public static Boolean createPassword(Student student, String username, String password)
+	private PasswordManager() {}
+
+	
+	public static PasswordManager getInstance()
 	{
-		//if the username is empty, or the pwd is, return false and don't
-		//create the pwd in the data file
-		if(username.length() < USERNAME_PASSWORD_MIN_LENGTH || password.length() < USERNAME_PASSWORD_MIN_LENGTH)
+		if (passwordmanager == null)
+		{
+			passwordmanager = new PasswordManager(); 
+		}
+		return passwordmanager;
+	}
+	
+	
+	public Boolean createPassword(Student student, String username, String password)
+	{
+		if(username.length() < 1 || password.length() < PASSWORD_MIN_LENGTH)
 		{
 			return false;
 		}
-          else if (student == null) //do we need to check that student is valid, more deeply than this check?
+          else if (!student.isValid() or usernameIsUsed()) 
 		{
 			return false;
 		}
           else
 		{
-			//create password in the data file - haven't coded this yet.
+			//create password in the data file?
+        	 //or, add a password to the collection, I think is what this means.
+        	passwords.
 			return true;
 		}
 	}
 	
-	public static Boolean isMinLength(String password)
+	
+	private Boolean usernameIsUsed()
 	{
-		return (password.length() >= USERNAME_PASSWORD_MIN_LENGTH);
+		//if the username is in the passwords collection already 
+			//return true 
+		return true;
 	}
 	
-	//asks for username, password, and returns the student ID if the u+p are valid
-	public static int login(String username, String password)
+	public Boolean isMinLength(String password)
 	{
-		return 1;
+		return (password.length() >= PASSWORD_MIN_LENGTH);
 	}
+	
+	
+	//asks for username, password, and returns the student ID if the u+p are valid
+	public int login(String username, String password)
+	{
+		int studentID = -1;
+		
+		//find the username in the passwords file
+		//if the password matches what's given
+			//return the associated studentID
+
+		passwords.
+		
+		
+		return studentID;
+	}
+	
 	
 	// this checks that only students in students.txt have passwords in passwords.txt,
 	// and deletes any password records for which there is no corresponding
 	// student record
-	public static void validateAllAccounts()
+	public void validateAllAccounts()
 	{
 		//haven't coded this yet.
 	}

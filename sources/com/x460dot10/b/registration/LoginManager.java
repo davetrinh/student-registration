@@ -63,7 +63,6 @@ public class LoginManager {
 		String password = "";
 		
 		Boolean studentAddedToUniversity = false;
-		Boolean studentAddAttemptMade = false;
 		
 		while (!studentAddedToUniversity)
 		{	
