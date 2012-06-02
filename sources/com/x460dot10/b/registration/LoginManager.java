@@ -1,27 +1,34 @@
+//package com.x460dot10.b.registration;
+
 import java.util.Scanner;
 
 public class LoginManager {
+	
+	private University uni;
+	private PasswordManager pwdmgr;
+    private static LoginManager loginmgr;
     
-    private static LoginManager loginmanager = null;
-    
-
+ 
     public static LoginManager getInstance()
     {
-    	if(loginmanager == null)
+    	if(loginmgr == null)
     	{
-    		loginmanager = new LoginManager();
+    		loginmgr = new LoginManager();
     	}
-    	return loginmanager;
+    	return loginmgr;
     }
     
     
-    protected LoginManager()
+    private LoginManager()
     {
-    	displayLoginScreen();
-    }
+		uni = University.getInstance();
+		pwdmgr = PasswordManager.getInstance();
+		
+		this.displayLoginScreen();    
+	}
+ 
 
-    
-	private static void displayLoginScreen()
+	private void displayLoginScreen()
 	{
 		String userAnswer;
 		final String YES_ANSWER = "y";
@@ -37,25 +44,25 @@ public class LoginManager {
 
 			if (userAnswer.equalsIgnoreCase(YES_ANSWER))
 			{
-				runNewStudent();
+				this.runNewStudent();
 				break;
 			}else if (userAnswer.equalsIgnoreCase(NO_ANSWER))
 			{
-				runCurrentStudent();
+				this.runCurrentStudent();
 				break;
 			}
 		}
 	}
 
 	
-	private static void runCurrentStudent()
+	private void runCurrentStudent()
 	{
 		//starts the process for a current student logging in
 		SessionManager sm = new SessionManager();
 	}
 
 	
-	private static void runNewStudent()
+	private void runNewStudent()
 	{		
 		String firstName = "";
 		String lastName = "";
@@ -66,12 +73,12 @@ public class LoginManager {
 		
 		while (!studentAddedToUniversity)
 		{	
-			firstName = getItemOfUserInput("First name"); 
-			lastName = getItemOfUserInput("Last name");
-			username = getItemOfUserInput("Username");
-			password = getItemOfUserInput("Password");
+			firstName = this.getItemOfUserInput("First name"); 
+			lastName = this.getItemOfUserInput("Last name");
+			username = this.getItemOfUserInput("Username");
+			password = this.getItemOfUserInput("Password");
 					
-			studentAddedToUniversity = University.addStudent(firstName, lastName, username, password);
+			studentAddedToUniversity = uni.addStudent(firstName, lastName, username, password);
 			
 			if (!studentAddedToUniversity)
 			{
@@ -83,7 +90,7 @@ public class LoginManager {
 	}
 
 	
-	private static String getItemOfUserInput(String itemTitle)
+	private String getItemOfUserInput(String itemTitle)
 	{
 		final String ITEM_TITLE_PASSWORD = "password";
 		Scanner keyboardInput = new Scanner(System.in);
@@ -98,7 +105,7 @@ public class LoginManager {
 	
 			if (itemTitle.equalsIgnoreCase(ITEM_TITLE_PASSWORD))
 			{
-				if (PasswordManager.isMinLength(userInput))
+				if (pwdmgr.isMinLength(userInput))
 				{
 					itemValue = userInput;
 				}else
