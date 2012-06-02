@@ -1,4 +1,4 @@
-//package com.x460dot10.b.registration;
+package com.x460dot10.b.registration;
 
 import java.util.ArrayList;
 import org.apache.commons.lang3.StringUtils;

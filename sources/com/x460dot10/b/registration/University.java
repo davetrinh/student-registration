@@ -17,9 +17,10 @@
  * Boston, MA 02110-1301, USA.
  */
 
-package com.x460dot10.b.registration;
+//package com.x460dot10.b.registration;
 
-import java.Util.vector;
+import java.util.Vector;
+import java.util.Date;
 
 /**
  * Controls the objects in the Student Registration System.
@@ -33,14 +34,16 @@ public class University
      private LoginManager loginManager;
      private PasswordManager passwordManager;
      private SessionManager sessionManager;
-     private RegistrationManager registrationManager;
+     //private RegistrationManager registrationManager;
      private Vector<Course> courses;
      private Vector<Student> students;
 
      /**
       * Private default constructor for Singleton pattern
       */
-     private University () {}
+     private University () {
+    	 students = new Vector<Student>();
+     }
 
      /**
       * Function to create Singleton instance.
@@ -69,7 +72,7 @@ public class University
           try
           {
                newCourse = new Course(begin, end,
-                                      name, description, maxStudents);
+                                      name, description, maxNumber);
                courses.add(newCourse);
           }
           catch (Exception ex)
@@ -97,8 +100,19 @@ public class University
           Student newStudent = null;
           try
           {
-               newStudent = new Student(first, last, user, password);
-               students.add(newStudent);
+        	  int newStudentID;
+        	  //create a unique student ID and encapsulate password info into a Password object
+        	  if (students != null)
+        	  {
+            	  newStudentID = getLargestStudentID() + 1;
+        	  }
+        	  else
+        	  {
+        		  newStudentID = 0;
+        	  }
+        	  Password newStudentPwd = new Password(userID, password, newStudentID);
+              newStudent = new Student(first, last, newStudentID, newStudentPwd);
+              students.add(newStudent);
           }
           catch (Exception ex)
           {
@@ -112,4 +126,59 @@ public class University
                     return true;
           }
      }
+	
+	
+    /**
+     * Checks whether the student exists in the university 
+     *
+     * @param studentID		Unique identifying number for student
+     * @return             	Indicates University contains student with this ID
+     */
+	public Boolean hasStudent(int studentID)
+	{
+		//for each student in the vector
+			//if it has this student id
+				//return true
+		for (Student s : students)
+		{
+			if (s.getStudentId() == studentID)
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	
+    /**
+     * Finds the largest student ID number in the collection of Students
+     *
+     * @return   		Largest student ID, or 0 if there isn't a largest ID number
+     */	
+	private int getLargestStudentID()
+	{
+		int largestID = 0;
+
+		for (Student s : students)
+		{
+			if (s.getStudentId() > largestID)
+			{
+				largestID = s.getStudentId();
+			}
+		}
+		
+		return largestID;
+	}
+	
+    /**
+     * Prints the student full name and ID number to the console
+     */
+	public void printStudentInfo()
+	{
+		for (Student s : students)
+		{
+			System.out.println(s.getFullName() + " " + s.getStudentId());
+		}
+	}
 }
