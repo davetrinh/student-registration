@@ -1,5 +1,11 @@
+package com.x460dot10.b.test;
 import static org.junit.Assert.*;
 import org.junit.Test;
+
+import com.x460dot10.b.registrar.Password;
+import com.x460dot10.b.registrar.PasswordManager;
+import com.x460dot10.b.registrar.Student;
+import com.x460dot10.b.registrar.University;
 
 
 public class PasswordManagerTest {
@@ -49,7 +55,7 @@ public class PasswordManagerTest {
 	
 	@Test
 	public void testCreatePassword() {
-		PasswordManager pm = new PasswordManager();		
+		PasswordManager pm = PasswordManager.getInstance();		
 		Password testPwd;
 		Boolean pwdCreated = false;
 		String replicatedUsername = "lojjiohj";
@@ -94,7 +100,7 @@ public class PasswordManagerTest {
 
 	@Test
 	public void testIsMinLength() {
-		PasswordManager pm = new PasswordManager();
+		PasswordManager pm = PasswordManager.getInstance();
 		Boolean pwdIsMinLength;
 		pwdIsMinLength = pm.isMinLength("1");
 		assertEquals(false, pwdIsMinLength);
@@ -109,7 +115,7 @@ public class PasswordManagerTest {
 
 	@Test
 	public void testLogin() {
-		PasswordManager pm = new PasswordManager();
+		PasswordManager pm = PasswordManager.getInstance();
 		Student stu;
 		Password stuPwd;
 		String username;

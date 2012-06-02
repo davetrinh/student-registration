@@ -1,7 +1,9 @@
-package com.x460dot10.b.registration;
+package com.x460dot10.b.registrar;
+
 
 import java.util.ArrayList;
-import org.apache.commons.lang3.StringUtils;
+//import org.apache.commons.lang3.StringUtils;
+
 
 
 public class PasswordManager {
@@ -78,13 +80,13 @@ public class PasswordManager {
 	
 	private Boolean usernameIsUsed(String uname)
 	{
-		for(Password pwd : passwords)
-		{
-			if (StringUtils.equals(uname, pwd.getUsername()))
-			{
-				return true;
-			}
-		}
+		//for(Password pwd : passwords)
+		//{
+			//if (StringUtils.equals(uname, pwd.getUsername()))
+		//	{
+		//		return true;
+		//	}
+		//}
 		return false;
 	}
 
@@ -126,8 +128,8 @@ public class PasswordManager {
 				//return the studentID
 		for (Password pwd : passwords)
 		{
-			if (StringUtils.equals(username, pwd.getUsername()) && 
-					StringUtils.equals(password,  pwd.getPassword()))
+			//if (StringUtils.equals(username, pwd.getUsername()) && 
+			//		StringUtils.equals(password,  pwd.getPassword()))
 			{
 				studentID = pwd.getStudentID();
 				break;

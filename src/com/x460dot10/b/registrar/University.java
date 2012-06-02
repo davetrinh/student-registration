@@ -1,3 +1,4 @@
+package com.x460dot10.b.registrar;
 /**
  * University.java
  * ------------------------------------------------------------------------
@@ -22,6 +23,7 @@
 import java.util.Vector;
 import java.util.Date;
 
+
 /**
  * Controls the objects in the Student Registration System.
  *
@@ -31,11 +33,11 @@ import java.util.Date;
 public class University 
 {
      private static University uni;
-     private LoginManager loginManager;
-     private PasswordManager passwordManager;
-     private SessionManager sessionManager;
+     //private LoginManager loginManager;
+     //private PasswordManager passwordManager;
+     //private SessionManager sessionManager;
      //private RegistrationManager registrationManager;
-     private Vector<Course> courses;
+     //private Vector<Course> courses;
      private Vector<Student> students;
 
      /**
@@ -65,15 +67,16 @@ public class University
       * @param maxNumber    Maximum student enrollment
       * @return             Indicates course was successfully added.
       */
+     @SuppressWarnings("unused")
      public Boolean addCourse(Date begin, Date end, String name,
                               String description, int maxNumber)
      {
           Course newCourse = null;
           try
           {
-               newCourse = new Course(begin, end,
-                                      name, description, maxNumber);
-               courses.add(newCourse);
+               //newCourse = new Course(begin, end,
+               //                       name, description, maxNumber);
+               //courses.add(newCourse);
           }
           catch (Exception ex)
           {
@@ -94,7 +97,8 @@ public class University
       * @param password     Password to login
       * @return             Indicates student was successfully added
       */
-	public Boolean addStudent(String first, String last, String userID, 
+	@SuppressWarnings("finally")
+     public Boolean addStudent(String first, String last, String userID, 
                                String password)
      {
           Student newStudent = null;

@@ -1,3 +1,5 @@
+package com.x460dot10.b.registrar;
+
 
 public class Student {
 	
@@ -8,7 +10,7 @@ public class Student {
 		this.m_lastName = lastName;
 		this.m_studentId = studentId;
 		this.m_valid = true;
-		this.m_passwordInfo = passInfo;
+		//this.m_passwordInfo = passInfo;
 		
 	}
 	
@@ -38,7 +40,7 @@ public class Student {
 	private String m_lastName;
 	private Integer m_studentId;
 	private Boolean m_valid;
-	private Password m_passwordInfo;
+	//private Password m_passwordInfo;
 	
 
 }

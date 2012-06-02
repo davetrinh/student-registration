@@ -1,6 +1,9 @@
+package com.x460dot10.b.test;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import com.x460dot10.b.registrar.LoginManager;
 
 
 public class LoginManagerTest {

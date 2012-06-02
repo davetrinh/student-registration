@@ -1,6 +1,9 @@
-import static org.junit.Assert.*;
+package com.x460dot10.b.test;
 
+import static org.junit.Assert.*;
 import org.junit.Test;
+
+import com.x460dot10.b.registrar.Password;
 
 
 public class PasswordTest {

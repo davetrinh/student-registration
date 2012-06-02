@@ -1,4 +1,5 @@
-package com.x460dot10.b.registration;
+package com.x460dot10.b.registrar;
+
 
 import java.util.Scanner;
 
@@ -58,7 +59,7 @@ public class LoginManager {
 	private void runCurrentStudent()
 	{
 		//starts the process for a current student logging in
-		SessionManager sm = new SessionManager();
+		//ssionManager sm = new SessionManager();
 	}
 
 	

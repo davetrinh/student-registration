@@ -18,9 +18,10 @@
  * Boston, MA 02110-1301, USA.
  */
 
-package com.x460dot10.b.registration;
+package com.x460dot10.b.registrar;
 
 import java.io.*;
+import java.util.Scanner;
 
 /**
  * Controls startup, shutdown, and File I/O
@@ -30,6 +31,7 @@ import java.io.*;
  */
 public class Initializer
 {
+     University uni;
      private static Initializer initializer;
 
     /**
@@ -39,7 +41,7 @@ public class Initializer
      {
           if (initializer == null)
                initializer = new Initializer();
-          return initializer;
+          return;
      }
 
      /**
@@ -51,22 +53,24 @@ public class Initializer
       *
       * @return             Indicates data files loaded with no errors
       */
-     private boolean Initializer()
-     {
-          University uni = University.getInstance();
-          Boolean studentImportSuccessful = importStudents();
-          Boolean passwordImportSuccessful = importPasswords();
-          Boolean courseImportSuccessful = importCourses();
-          Boolean registrationsImportSuccessful = importRegistrations();
-          Boolean importValidated = validateData();
-     }
+     //private boolean Initializer()
+     //{
+     //     uni = University.getInstance();
+          //Boolean studentImportSuccessful = importStudents();
+          //Boolean passwordImportSuccessful = importPasswords();
+          //Boolean courseImportSuccessful = importCourses();
+          //Boolean registrationsImportSuccessful = importRegistrations();
+          //Boolean importValidated = validateData();
+     //     return false;
+     //}
 
      /**
       * Imports data/students.txt into <code>University.students</code>
       *
       * @return             Indicates import of students was successful
+      * @throws IOException 
       */
-     public boolean importStudents()
+     public boolean importStudents() throws IOException
      {
           Boolean importStudentsSuccessful = true;
           BufferedReader reader = null;
@@ -77,8 +81,8 @@ public class Initializer
                Scanner scanner = new Scanner(reader);
                while (scanner.hasNextLine())
                {
-                    String line = scanner.nextLine();
-                    uni.addStudent(Student.parseStudent(line));
+                    //String line = scanner.nextLine();
+                    //uni.addStudent(Student.parseStudent(line));
 
                }                         
           }
@@ -100,8 +104,9 @@ public class Initializer
       * Imports data/passwords.txt into <code>University.passwords</code>
       *
       * @return             Indicates import of passwords was successful
+      * @throws IOException 
       */
-          public boolean importPasswords()
+          public boolean importPasswords() throws IOException
      {
           Boolean importPasswordsSuccessful = true;
           BufferedReader reader = null;
@@ -112,8 +117,8 @@ public class Initializer
                Scanner scanner = new Scanner(reader);
                while (scanner.hasNextLine())
                {
-                    String line = scanner.nextLine();
-                    uni.addStudent(Student.parseStudent(line));
+                    //String line = scanner.nextLine();
+                    //uni.addStudent(Student.parseStudent(line));
                }                         
           }
           catch (Exception ex)
@@ -134,10 +139,11 @@ public class Initializer
       * Imports data/courses.txt into <code>University.courses</code>
       *
       * @return             Indicates import of courses was successful
+      * @throws IOException 
       */
-     public boolean importCourses()
+     public void importCourses() throws IOException
      {
-          Boolean importCoursesSuccessful = true;
+          //Boolean importCoursesSuccessful = true;
           BufferedReader reader = null;
           try
           {
@@ -146,15 +152,15 @@ public class Initializer
                Scanner scanner = new Scanner(reader);
                while (scanner.hasNextLine())
                {
-                    String line = scanner.nextLine();
-                    uni.addStudent(Student.parseStudent(line));
+                    //String line = scanner.nextLine();
+                    //uni.addStudent(Student.parseStudent(line));
                }                         
           }
           catch (Exception ex)
           {
                // TODO send error message to a log file
                System.err.println("Error: " + ex.getMessage());
-               importCoursesSuccessful = false;
+               //importCoursesSuccessful = false;
           }
           finally
           {
@@ -167,10 +173,11 @@ public class Initializer
       * Imports data/registrations.txt into <code>University.registrations</code>
       *
       * @return             Indicates import of registration data was successful
+      * @throws IOException 
       */
-     public boolean importRegistrations()
+     public boolean importRegistrations() throws IOException
      {
-          Boolean importRegistrationsSuccessful = true;
+          //Boolean importRegistrationsSuccessful = true;
           BufferedReader reader = null;
           try
           {
@@ -179,15 +186,15 @@ public class Initializer
                Scanner scanner = new Scanner(reader);
                while (scanner.hasNextLine())
                {
-                    String line = scanner.nextLine();
-                    uni.addStudent(Student.parseStudent(line));
+                    //String line = scanner.nextLine();
+                    //uni.addStudent(Student.parseStudent(line));
                }                         
           }
           catch (Exception ex)
           {
                // TODO send error message to a log file
                System.err.println("Error: " + ex.getMessage());
-               importRegistrationsSuccessful = false;
+               //importRegistrationsSuccessful = false;
           }
           finally
           {
@@ -202,6 +209,7 @@ public class Initializer
       *
       * @return             Indicates all data is valid
       */
+     @SuppressWarnings("unused")
      private boolean validateData()
      {
           return false;
@@ -262,6 +270,6 @@ public class Initializer
 
      public static void main(String[] args)
      {
-          Initializer initializer = Initializer.StartUp();
+          Initializer.Startup();
      }
 }
