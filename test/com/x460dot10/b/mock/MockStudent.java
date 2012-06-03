@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.x460dot10.b.test;
+package com.x460dot10.b.mock;
 
 import com.x460dot10.b.registrar.Student;
 
@@ -38,12 +38,11 @@ public class MockStudent extends Student
       * @return MockStudent a static instance of student
       */
      
-     public static MockStudent staticInstance()
+     public static void staticInstance()
      {
           if (staticStudent == null)
                staticStudent = new MockStudent("","","");
           clearStaticInstance();
-          return staticStudent;
      }
      
      /**
@@ -56,13 +55,15 @@ public class MockStudent extends Student
       * @param  lastName          student's last name
       * @param  dateOfBirth       string date of birth in MM-DD-YY format
       */
-     public void setStaticInstance(int studentID, String firstName, 
+     public static MockStudent getStaticInstance(int studentID, String firstName, 
                String lastName, String dateOfBirth)
      {
-          this.m_studentId = studentID;
-          this.m_firstName = firstName;
-          this.m_lastName = lastName;
-          this.dateOfBirth = dateOfBirth;
+          staticInstance();
+          staticStudent.m_studentId = studentID;
+          staticStudent.m_firstName = firstName;
+          staticStudent.m_lastName = lastName;
+          staticStudent.dateOfBirth = dateOfBirth;
+          return staticStudent;
      }
 
      /**
@@ -87,7 +88,20 @@ public class MockStudent extends Student
                     dob.charAt(5) == '-';
      }
      
-     
+     public String toCSV()
+     {
+          StringBuilder export = new StringBuilder();
+          export.append('\"');
+          export.append(m_studentId);
+          export.append("\",\"");
+          export.append(m_firstName);
+          export.append("\",\"");
+          export.append(m_lastName);
+          export.append("\",\"");
+          export.append(dateOfBirth);
+          export.append('\"');
+          return export.toString();
+     }
 }
      
      

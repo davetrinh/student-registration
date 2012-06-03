@@ -21,9 +21,9 @@ package com.x460dot10.b.registrar;
 //package com.x460dot10.b.registration;
 
 import java.util.ArrayList;
-import java.util.Vector;
 import java.util.Date;
 
+import com.x460dot10.b.mock.MockStudent;
 
 /**
  * Controls the objects in the Student Registration System.
@@ -38,17 +38,17 @@ public class University
      public PasswordManager passwordManager;
      public SessionManager sessionManager;
      //public RegistrationManager registrationManager;
-     protected Vector<Course> courses;
-     protected Vector<Student> students;
+     protected ArrayList<Course> courses;
+     protected ArrayList<MockStudent> students;
 
      /**
       * Private default constructor for Singleton pattern
       */
      private University () {
-    	 students = new Vector<Student>();
-    	 courses = new Vector<Course>();
-    	 loginManager = LoginManager.getInstance();
-    	 passwordManager = PasswordManager.getInstance();
+    	 students = new ArrayList<MockStudent>();
+    	 courses = new ArrayList<Course>();
+    	 // loginManager = LoginManager.getInstance();
+    	 // passwordManager = PasswordManager.getInstance();
     	 // sessionManager = SessionManager.getInstance();
     	 // registrationManager = RegistrationManager.getInstance();
      }
@@ -217,10 +217,22 @@ public class University
      {
           return new ArrayList<Integer>();
      }
+	
+     /**
+     * Returns copy of <code>students</code> for
+     * <code>UniversityTest</code> class
+     *
+     * @return           <code>students</code>
+     */   
+
+     public ArrayList<MockStudent> getAllMockStudents()
+	{
+	     return students;
+	}
 
 	
 	
-    /**
+	/**
      * Finds the largest student ID number in <code>students</code>
      *
      * @return   		max studentID or 0 if no students.

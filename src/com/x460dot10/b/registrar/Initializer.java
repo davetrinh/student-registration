@@ -21,7 +21,12 @@
 package com.x460dot10.b.registrar;
 
 import java.io.*;
+import java.util.List;
 import java.util.Scanner;
+
+import org.apache.commons.csv.*;
+
+import com.x460dot10.b.mock.MockStudent;
 
 /**
  * Controls startup, shutdown, and File I/O
@@ -31,17 +36,17 @@ import java.util.Scanner;
  */
 public class Initializer
 {
-     University uni;
+     public University uni;
      private static Initializer initializer;
 
     /**
       * Singleton pattern constructor called at program startup
       */
-      public static void Startup()
+      public static Initializer getInstance()
      {
           if (initializer == null)
                initializer = new Initializer();
-          return;
+          return initializer;
      }
 
      /**
@@ -53,16 +58,16 @@ public class Initializer
       *
       * @return             Indicates data files loaded with no errors
       */
-     //private boolean Initializer()
-     //{
-     //     uni = University.getInstance();
+     private Initializer()
+     {
+          uni = University.getInstance();
           //Boolean studentImportSuccessful = importStudents();
           //Boolean passwordImportSuccessful = importPasswords();
           //Boolean courseImportSuccessful = importCourses();
           //Boolean registrationsImportSuccessful = importRegistrations();
           //Boolean importValidated = validateData();
      //     return false;
-     //}
+     }
 
      /**
       * Imports data/students.txt into <code>University.students</code>
@@ -73,18 +78,38 @@ public class Initializer
      public boolean importStudents() throws IOException
      {
           Boolean importStudentsSuccessful = true;
-          BufferedReader reader = null;
+          File file = new File("data/mockstudents.dat");
+          System.out.println("File was successfully opened" + file.exists());
+          System.out.println(file.getAbsolutePath());
+          FileReader reader = null;
+          MockStudent nextStudent;
           try
           {
-               reader = new BufferedReader(
-                   new FileReader("data/students.txt"));
-               Scanner scanner = new Scanner(reader);
-               while (scanner.hasNextLine())
-               {
-                    //String line = scanner.nextLine();
-                    //uni.addStudent(Student.parseStudent(line));
+               reader = new FileReader(file);
+               CSVFormat format = CSVFormat.DEFAULT;
+               List<CSVRecord> records = 
+                         new CSVParser(reader, format).getRecords();
 
-               }                         
+               for (CSVRecord record : records)
+               {
+                    String idAsString = record.values[0];
+                    Integer id = Integer.parseInt(idAsString);
+                    String first = record.values[1];
+                    String last = record.values[2];
+                    String dob = record.values[3];
+                    
+//                    String idAsString = record.get("student_id");
+//                    Integer id = Integer.parseInt(idAsString);
+//                    String first = record.get("first_name");
+//                    String last = record.get("last_name");
+//                    String dob = record.get("dob");
+                    nextStudent = 
+                              MockStudent.getStaticInstance(id, 
+                                        first, last, dob);
+                    uni.students.add(nextStudent);
+               }
+               
+
           }
           catch (Exception ex)
           {
@@ -98,8 +123,9 @@ public class Initializer
                     reader.close();
           }
           return importStudentsSuccessful;
-     }          
-
+     }
+     
+     
      /**
       * Imports data/passwords.txt into <code>University.passwords</code>
       *
@@ -270,6 +296,7 @@ public class Initializer
 
      public static void main(String[] args)
      {
-          Initializer.Startup();
+          Initializer initializer = Initializer.getInstance();
+          initializer.saveStudents();
      }
 }
