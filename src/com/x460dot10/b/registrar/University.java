@@ -32,12 +32,12 @@ import java.util.Date;
  */
 public class University 
 {
-     private static University uni;
-     //private LoginManager loginManager;
-     //private PasswordManager passwordManager;
-     //private SessionManager sessionManager;
-     //private RegistrationManager registrationManager;
-     //private Vector<Course> courses;
+     static University uni;
+     public LoginManager loginManager;
+     public PasswordManager passwordManager;
+     public SessionManager sessionManager;
+     public RegistrationManager registrationManager;
+     private Vector<Course> courses;
      private Vector<Student> students;
 
      /**
@@ -45,6 +45,11 @@ public class University
       */
      private University () {
     	 students = new Vector<Student>();
+    	 courses = new Vector<Course>();
+    	 loginManager = LoginManager.getInstance();
+    	 passwordManager = PasswordManager.getInstance();
+    	 sessionManager = SessionManager.getInstance();
+    	 registrationManager = RegistrationManager.getInstance();
      }
 
      /**
