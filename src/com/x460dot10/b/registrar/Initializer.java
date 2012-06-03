@@ -21,12 +21,7 @@
 package com.x460dot10.b.registrar;
 
 import java.io.*;
-import java.util.List;
 import java.util.Scanner;
-
-import org.apache.commons.csv.*;
-
-import com.x460dot10.b.mock.MockStudent;
 
 /**
  * Controls startup, shutdown, and File I/O
@@ -36,17 +31,17 @@ import com.x460dot10.b.mock.MockStudent;
  */
 public class Initializer
 {
-     public University uni;
+     University uni;
      private static Initializer initializer;
 
     /**
       * Singleton pattern constructor called at program startup
       */
-      public static Initializer getInstance()
+      public static void Startup()
      {
           if (initializer == null)
                initializer = new Initializer();
-          return initializer;
+          return;
      }
 
      /**
@@ -58,16 +53,16 @@ public class Initializer
       *
       * @return             Indicates data files loaded with no errors
       */
-     private Initializer()
-     {
-          uni = University.getInstance();
+     //private boolean Initializer()
+     //{
+     //     uni = University.getInstance();
           //Boolean studentImportSuccessful = importStudents();
           //Boolean passwordImportSuccessful = importPasswords();
           //Boolean courseImportSuccessful = importCourses();
           //Boolean registrationsImportSuccessful = importRegistrations();
           //Boolean importValidated = validateData();
      //     return false;
-     }
+     //}
 
      /**
       * Imports data/students.txt into <code>University.students</code>
@@ -78,38 +73,18 @@ public class Initializer
      public boolean importStudents() throws IOException
      {
           Boolean importStudentsSuccessful = true;
-          File file = new File("data/mockstudents.dat");
-          System.out.println("File was successfully opened" + file.exists());
-          System.out.println(file.getAbsolutePath());
-          FileReader reader = null;
-          MockStudent nextStudent;
+          BufferedReader reader = null;
           try
           {
-               reader = new FileReader(file);
-               CSVFormat format = CSVFormat.DEFAULT;
-               List<CSVRecord> records = 
-                         new CSVParser(reader, format).getRecords();
-
-               for (CSVRecord record : records)
+               reader = new BufferedReader(
+                   new FileReader("data/students.txt"));
+               Scanner scanner = new Scanner(reader);
+               while (scanner.hasNextLine())
                {
-                    String idAsString = record.values[0];
-                    Integer id = Integer.parseInt(idAsString);
-                    String first = record.values[1];
-                    String last = record.values[2];
-                    String dob = record.values[3];
-                    
-//                    String idAsString = record.get("student_id");
-//                    Integer id = Integer.parseInt(idAsString);
-//                    String first = record.get("first_name");
-//                    String last = record.get("last_name");
-//                    String dob = record.get("dob");
-                    nextStudent = 
-                              MockStudent.getStaticInstance(id, 
-                                        first, last, dob);
-                    uni.students.add(nextStudent);
-               }
-               
+                    //String line = scanner.nextLine();
+                    //uni.addStudent(Student.parseStudent(line));
 
+               }                         
           }
           catch (Exception ex)
           {
@@ -123,9 +98,8 @@ public class Initializer
                     reader.close();
           }
           return importStudentsSuccessful;
-     }
-     
-     
+     }          
+
      /**
       * Imports data/passwords.txt into <code>University.passwords</code>
       *
@@ -296,7 +270,6 @@ public class Initializer
 
      public static void main(String[] args)
      {
-          Initializer initializer = Initializer.getInstance();
-          initializer.saveStudents();
+          Initializer.Startup();
      }
 }
