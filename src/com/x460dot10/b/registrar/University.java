@@ -20,6 +20,7 @@ package com.x460dot10.b.registrar;
 
 //package com.x460dot10.b.registration;
 
+import java.util.ArrayList;
 import java.util.Vector;
 import java.util.Date;
 
@@ -36,9 +37,9 @@ public class University
      public LoginManager loginManager;
      public PasswordManager passwordManager;
      public SessionManager sessionManager;
-     public RegistrationManager registrationManager;
-     private Vector<Course> courses;
-     private Vector<Student> students;
+     //public RegistrationManager registrationManager;
+     protected Vector<Course> courses;
+     protected Vector<Student> students;
 
      /**
       * Private default constructor for Singleton pattern
@@ -48,8 +49,8 @@ public class University
     	 courses = new Vector<Course>();
     	 loginManager = LoginManager.getInstance();
     	 passwordManager = PasswordManager.getInstance();
-    	 sessionManager = SessionManager.getInstance();
-    	 registrationManager = RegistrationManager.getInstance();
+    	 // sessionManager = SessionManager.getInstance();
+    	 // registrationManager = RegistrationManager.getInstance();
      }
 
      /**
@@ -65,12 +66,15 @@ public class University
      /**
       * Adds a new <code>course</code> to <code>courses</code> 
       *
-      * @param begin        Beginning date of course
-      * @param end          Ending date of the course
-      * @param name         Name of the course
-      * @param description  Description of the course
-      * @param maxNumber    Maximum student enrollment
-      * @return             Indicates course was successfully added.
+      * @author Alexandros Bantis
+      * @param begin              Beginning date of course
+      * @param end                Ending date of the course
+      * @param name               Name of the course
+      * @param description        Description of the course
+      * @param maxNumber          Maximum student enrollment
+      * @return                   <code>true</code> indicates course 
+      *                           was successfully added else 
+      *                           <code>false</code>
       */
      @SuppressWarnings("unused")
      public Boolean addCourse(Date begin, Date end, String name,
@@ -96,11 +100,13 @@ public class University
      /**
       * Adds a new <code>student</code> to <code>students</code> 
       *
-      * @param first        First name
-      * @param last         Last name
-      * @param userID       UserID to login
-      * @param password     Password to login
-      * @return             Indicates student was successfully added
+      * @author Alexandros Bantis
+      * @param  first             First name
+      * @param  last              Last name
+      * @param  userID            UserID to login
+      * @param  password          Password to login
+      * @return                   <code>true</code> indicates student was
+      *                           successfully added else <code>false</code>
       */
 	@SuppressWarnings("finally")
      public Boolean addStudent(String first, String last, String userID, 
@@ -109,19 +115,22 @@ public class University
           Student newStudent = null;
           try
           {
-        	  int newStudentID;
-        	  //create a unique student ID and encapsulate password info into a Password object
+        	  // int newStudentID;
+        	  // create a unique student ID and encapsulate password info 
+            // into a Password object
         	  if (students != null)
         	  {
-            	  newStudentID = getLargestStudentID() + 1;
+            //	  newStudentID = getLargestStudentID() + 1;
         	  }
         	  else
         	  {
-        		  newStudentID = 0;
+        		//  newStudentID = 0;
         	  }
-        	  Password newStudentPwd = new Password(userID, password, newStudentID);
-              newStudent = new Student(first, last, newStudentID, newStudentPwd);
-              students.add(newStudent);
+        	  // Password newStudentPwd = new Password(userID, password, 
+        	  // newStudentID);
+            // newStudent = new Student(first, last, newStudentID, 
+        	  // newStudentPwd);
+            //  students.add(newStudent);
           }
           catch (Exception ex)
           {
@@ -138,10 +147,13 @@ public class University
 	
 	
     /**
-     * Checks whether the student exists in the university 
+     * Checks whether the student exists in the university.
      *
-     * @param studentID		Unique identifying number for student
-     * @return             	Indicates University contains student with this ID
+     * @author Kathleen Gustafson
+     * @param  studentID		    Unique identifying number for student
+     * @return             	    <code>true</code> indicates University 
+     *                            contains student with this ID, else
+     *                            <code>false</code> indicates no match.
      */
 	public Boolean hasStudent(int studentID)
 	{
@@ -158,14 +170,63 @@ public class University
 		
 		return false;
 	}
+
+	/**
+	* Validates that proposed student isn't a duplicate of an already
+	* existing student object. 
+	*
+	* @author alexandros bantis
+	* @param  firstName          first name
+	* @param  lastName           last name
+	* @param  dateOfBirth        date of birth string in MM/DD/YY format
+	* @return                    <code>true</code> if no match with existing 
+	*                            students, otherwise <code>false</code>
+	*/
+	public boolean proposedStudentIsValid(String firstName, 
+	          String lastName, String dateOfBirth)
+	{
+	     return false;
+	}
+	
+
+	/**
+	 * Validates that there are no duplicate records in <code>students</code>. 
+	 *
+	 * @author alexandros bantis
+	 * @return                    <code>true</code> if no duplicate records in 
+	 *                            <code>students</code>, otherwise returns 
+	 *                            <code>false</code>
+	 */
+	public boolean validateAllStudents()
+	{
+	     return false;
+	}
+
+     /**
+      * Returns list of all <code>students.studentID</code> so that 
+      * <code>Initializer</code> can validate that text file import is
+      * consistent with <code>passwordManager.passwords</code> and 
+      * <code>registrationManager.registrations</code> 
+      *
+      * @author alexandros bantis
+      * @return                    <code>true</code> if no duplicate records in 
+      *                            <code>students</code>, otherwise returns 
+      *                            <code>false</code>
+      */
+     public ArrayList<Integer> allStudentIDs()
+     {
+          return new ArrayList<Integer>();
+     }
+
 	
 	
     /**
-     * Finds the largest student ID number in the collection of Students
+     * Finds the largest student ID number in <code>students</code>
      *
-     * @return   		Largest student ID, or 0 if there isn't a largest ID number
+     * @return   		max studentID or 0 if no students.
      */	
-	private int getLargestStudentID()
+	@SuppressWarnings("unused")
+     private int getLargestStudentID()
 	{
 		int largestID = 0;
 

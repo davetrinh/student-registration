@@ -31,16 +31,16 @@ public class PasswordManagerTest {
 		Password roguePwd;
 		
 		newPwd = new Password("mani", "padme", 0);
-		newStu = new Student("Mani", "Padme", 0, newPwd);
+		newStu = new Student("Mani", "Padme", 0);
 		pm.createPassword(newStu, newPwd.getUsername(), newPwd.getPassword());
 		
 		newPwd = new Password("horace", "ccsfs", 1);
-		newStu = new Student("Karin", "Felton", 1, newPwd);
+		newStu = new Student("Karin", "Felton", 1);
 		pm.createPassword(newStu, newPwd.getUsername(), newPwd.getPassword());
 		
 		//create rogue pwd object and add it to the pm
 		roguePwd = new Password("rogue", "roguey", 567);
-		rogueStu = new Student("Rogueish", "Jones", 567, roguePwd);
+		rogueStu = new Student("Rogueish", "Jones", 567);
 		pm.createPassword(rogueStu, roguePwd.getUsername(), roguePwd.getPassword());
 		
 		//test that this rogue student who's not in uni is added to pm's passwords collection
@@ -61,11 +61,11 @@ public class PasswordManagerTest {
 		String replicatedUsername = "lojjiohj";
 		
 		testPwd = new Password("", "123456", 333);
-		pwdCreated = pm.createPassword(new Student("abe", "lincoln", 333, testPwd), "", "123456");
+		pwdCreated = pm.createPassword(new Student("abe", "lincoln", 333), "", "123456");
 		assertEquals(false, pwdCreated);	
 
 		testPwd = new Password("", "", 333);
-		pwdCreated = pm.createPassword(new Student("abe", "lincoln", 333, testPwd), "", "");
+		pwdCreated = pm.createPassword(new Student("abe", "lincoln", 333), "", "");
 		assertEquals(false, pwdCreated);	
 
 		testPwd = new Password("garrys", "12345", 333);
@@ -73,24 +73,24 @@ public class PasswordManagerTest {
 		assertEquals(false, pwdCreated);
 		
 		testPwd = new Password("abcde", "12345", 333);
-		pwdCreated = pm.createPassword(new Student("abe", "lincoln", 333, testPwd), "abcde", "12345");
+		pwdCreated = pm.createPassword(new Student("abe", "lincoln", 333), "abcde", "12345");
 		assertEquals(true, pwdCreated);
 		
 		//test that an already-used username cannot be added
 		//this is weird - the student object already has a password object, so why am I passing in both the student and the
 		//username + password?
 		testPwd = new Password(replicatedUsername, "wokka2", 486);
-		pwdCreated = pm.createPassword(new Student("abe", "lincoln", 486, testPwd), replicatedUsername, "wokka2");
+		pwdCreated = pm.createPassword(new Student("abe", "lincoln", 486), replicatedUsername, "wokka2");
 		assertEquals(true, pwdCreated);
 		
 		testPwd = new Password(replicatedUsername, "adfsd", 142);
-		pwdCreated = pm.createPassword(new Student("Cory", "Mulligan", 142, testPwd), replicatedUsername, "adfsd");
+		pwdCreated = pm.createPassword(new Student("Cory", "Mulligan", 142), replicatedUsername, "adfsd");
 		assertEquals(false, pwdCreated);
 		
 		//test that a student that already has a username+pwd, their password record is overwritten w/new username-pwd
 		assertEquals(486, pm.login(replicatedUsername, "wokka2"));	
 		testPwd = new Password("riley234", "hortense45", 486);
-		pm.createPassword(new Student("abe", "lincoln", 486, testPwd), "riley234", "hortense45");
+		pm.createPassword(new Student("abe", "lincoln", 486), "riley234", "hortense45");
 		assertEquals(486, pm.login("riley234", "hortense45"));
 		
 		pm.printAllPwdRecords();
@@ -128,7 +128,7 @@ public class PasswordManagerTest {
 		password = "tests";
 		studentID = 123;
 		stuPwd = new Password(username, password, studentID);
-		stu = new Student("abe", "lincoln", studentID, stuPwd);
+		stu = new Student("abe", "lincoln", studentID);
 		
 		pm.createPassword(stu, username, password);
 		expectedStudentID = pm.login(username, password);
@@ -139,7 +139,7 @@ public class PasswordManagerTest {
 		password = "riley2";
 		studentID = 3432;
 		stuPwd = new Password(username, password, studentID);
-		stu = new Student("Moe", "Riley", studentID, stuPwd);
+		stu = new Student("Moe", "Riley", studentID);
 		
 		pm.createPassword(stu, username, password);
 		expectedStudentID = pm.login(username, password);
