@@ -1,4 +1,3 @@
-package com.x460dot10.b.registrar;
 import java.sql.Date;
 
 public class Course {
@@ -7,6 +6,7 @@ public class Course {
 	{
 		this.m_courseName = courseName;
 		this.m_courseId = courseId;
+		this.m_description = description;
 		this.m_maxSeats = maxSeats;
 		this.m_currentSeats = currentSeats;
 		this.m_beginDate = start;
@@ -70,16 +70,23 @@ public class Course {
 	public void printCourseInfo()
 	{
 		System.out.println("{Course id: " + m_courseId + "} " + "{Course Name: " + m_courseName + "} "
-				+ "{Begin Date: " + m_beginDate.toString() + "} " +  "{End Date: " + m_endDate.toString() + "} "
+				+ "{Description: " + m_description + "} " + "{Begin Date: " + m_beginDate.toString() + "} " +  "{End Date: " + m_endDate.toString() + "} "
 				+ "{Max Seats: " + m_maxSeats + "} " + "{Current Seats: " + m_currentSeats + "}" );
 		
 	}
+	public String toCSV()
+	{
+		return m_courseName + "," + m_courseId + "," + m_description + "," + m_maxSeats + "," + m_currentSeats + "," + m_beginDate.toString()
+				+ "," + m_endDate.toString();
+		
+	}
 	
-	private String  m_courseName;
-	private Integer m_courseId;
-	private Integer m_maxSeats;
-	private Integer m_currentSeats;
-	private Date    m_beginDate;
-	private Date    m_endDate;
+	protected String  m_courseName;
+	protected Integer m_courseId;
+	protected Integer m_maxSeats;
+	protected Integer m_currentSeats;
+	protected String  m_description;
+	protected Date    m_beginDate;
+	protected Date    m_endDate;
 	
 }
