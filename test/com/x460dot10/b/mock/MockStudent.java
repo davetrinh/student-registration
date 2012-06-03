@@ -88,6 +88,11 @@ public class MockStudent extends Student
                     dob.charAt(5) == '-';
      }
      
+     public String getDOB()
+     {
+          return dateOfBirth;
+     }
+     
      public String toCSV()
      {
           StringBuilder export = new StringBuilder();

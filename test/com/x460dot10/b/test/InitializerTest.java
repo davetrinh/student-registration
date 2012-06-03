@@ -71,6 +71,21 @@ public class InitializerTest
                ArrayList<MockStudent> actualStudents = 
                          program.uni.getAllMockStudents();
                assertEquals(simpsons.size(),actualStudents.size());
+               for (int i = 0; i < actualStudents.size(); ++i)
+               {
+                    assertEquals(simpsons.get(i).getStudentId(),
+                              actualStudents.get(i).getStudentId());
+
+                    assertEquals(simpsons.get(i).getFirstName(),
+                              actualStudents.get(i).getFirstName());
+
+                    assertEquals(simpsons.get(i).getLastName(),
+                              actualStudents.get(i).getLastName());
+
+                    assertEquals(simpsons.get(i).getDOB(),
+                              actualStudents.get(i).getDOB());
+
+               }
                
           } catch (IOException e)
           {
