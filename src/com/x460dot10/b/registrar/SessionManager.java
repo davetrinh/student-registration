@@ -1,3 +1,5 @@
+package com.x460dot10.b.registrar;
+
 import java.util.Iterator;
 import java.util.Vector;
 
