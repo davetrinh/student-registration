@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.x460dot10.b.registrar.LoginManager;
+import com.x460dot10.b.registrar.PasswordManager;
+import com.x460dot10.b.registrar.University;
 
 
 public class LoginManagerTest {

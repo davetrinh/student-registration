@@ -8,8 +8,9 @@ package com.x460dot10.b.registrar;
  *                           is starting up the system
  * @param  RUNNING           indicates system is currently running
  * @param  SHUTTING_DOWN     indicates system is shutting down
+ * @param  TESTING           indicates system is in testing mode
  */
 public enum SystemStatus
 {
-     STARTING_UP, RUNNING, SHUTTING_DOWN;
+     STARTING_UP, RUNNING, SHUTTING_DOWN, TESTING;
 }

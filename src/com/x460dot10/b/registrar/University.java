@@ -48,15 +48,16 @@ public class University implements Subject
       * Private default constructor for Singleton pattern
       */
      private University () {
-          observers = new ArrayList<Observer>();
-          registerManagersAsObservers();
-          setStatus(SystemStatus.STARTING_UP);
           students = new ArrayList<MockStudent>();
           courses = new ArrayList<Course>();
           loginManager = LoginManager.getInstance();
           passwordManager = PasswordManager.getInstance();
           sessionManager = SessionManager.getInstance();
           // registrationManager = RegistrationManager.getInstance();
+          observers = new ArrayList<Observer>();
+          registerManagersAsObservers();
+          setStatus(SystemStatus.STARTING_UP);
+
      }
 
      /**
@@ -76,12 +77,12 @@ public class University implements Subject
       */
      void registerManagersAsObservers()
      {
-          if (!observers.isEmpty())
+          if (observers.size() > 0)
                return;
           
-          observers.add((Observer)loginManager);
+          //observers.add((Observer)loginManager);
           observers.add((Observer)passwordManager);
-          observers.add((Observer)sessionManager);
+          //observers.add((Observer)sessionManager);
           //observers.add((Observer)registrationManager);
      }
      

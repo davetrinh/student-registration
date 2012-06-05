@@ -13,7 +13,7 @@ import java.util.Scanner;
  */
 public class LoginManager {
 	
-	private University uni;
+	//private University uni;
 	private PasswordManager pwdmgr;
     private static LoginManager loginmgr;
     
@@ -25,8 +25,8 @@ public class LoginManager {
      */
     private LoginManager()
     {
-		uni = University.getInstance();
-		pwdmgr = PasswordManager.getInstance();
+	//	uni = University.getInstance();
+	//	pwdmgr = PasswordManager.getInstance();
 	}
     
     
@@ -101,7 +101,7 @@ public class LoginManager {
 			studentID = pwdmgr.login(username, password);
 		
 			loginAttempted = true;
-		} while (!uni.hasStudent(studentID));
+		} while (false/*!uni.hasStudent(studentID)*/);
 	
 		return studentID;
 	}
@@ -140,32 +140,32 @@ public class LoginManager {
 	 */
 	private void runNewStudent()
 	{		
-		String firstName = "";
-		String lastName = "";
-		String username = "";
-		String password = "";
-		int studentID;
-		
-		Boolean studentAddedToUniversity = false;
-		
-		while (!studentAddedToUniversity)
-		{	
-			firstName = this.getItemOfNewStudentInfo("First name"); 
-			lastName = this.getItemOfNewStudentInfo("Last name");
-			username = this.getItemOfNewStudentInfo("Username");
-			password = this.getItemOfNewStudentInfo("Password");
-					
-			studentAddedToUniversity = uni.addStudent(firstName, lastName, username, password);
-			
-			if (!studentAddedToUniversity)
-			{
-				System.out.println("There was a problem adding your student record. " +
-									"Please enter your information again.");
-			}
-		}
-		
-		studentID = pwdmgr.login(username, password);
-		runCurrentStudent(studentID);
+//		String firstName = "";
+//		String lastName = "";
+//		String username = "";
+//		String password = "";
+//		int studentID;
+//		
+//		Boolean studentAddedToUniversity = false;
+//		
+//		while (!studentAddedToUniversity)
+//		{	
+//			firstName = this.getItemOfNewStudentInfo("First name"); 
+//			lastName = this.getItemOfNewStudentInfo("Last name");
+//			username = this.getItemOfNewStudentInfo("Username");
+//			password = this.getItemOfNewStudentInfo("Password");
+//					
+//			studentAddedToUniversity = uni.addStudent(firstName, lastName, username, password);
+//			
+//			if (!studentAddedToUniversity)
+//			{
+//				System.out.println("There was a problem adding your student record. " +
+//									"Please enter your information again.");
+//			}
+//		}
+//		
+//		studentID = pwdmgr.login(username, password);
+//		runCurrentStudent(studentID);
 	}
 
 	

@@ -9,7 +9,7 @@ import com.x460dot10.b.registrar.Student;
  * @author ambantis
  *
  */
-public class MockStudent extends Student
+public class MockStudent extends Student implements Cloneable
 {
      private static int countOfStudents = 0;
      public static MockStudent staticStudent;
@@ -107,6 +107,19 @@ public class MockStudent extends Student
           export.append('\"');
           return export.toString();
      }
+     
+     @Override
+     public Object clone()
+     {
+          try
+          {
+               return super.clone();
+          }
+          catch (CloneNotSupportedException ex)
+          {
+               return null;
+          }
+     } 
 }
      
      

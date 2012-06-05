@@ -80,10 +80,9 @@ public class Initializer
      {
           Boolean importStudentsSuccessful = true;
           File file = new File("data/mockstudents.dat");
-          //System.out.println("File was successfully opened" + file.exists());
-          //System.out.println(file.getAbsolutePath());
           FileReader reader = null;
-          MockStudent nextStudent;
+          ArrayList<MockStudent> fileStudents = new ArrayList<MockStudent>();
+          Object nextStudent;
           try
           {
                reader = new FileReader(file);
@@ -100,9 +99,10 @@ public class Initializer
                     String dob = record.values[3];
                     nextStudent = 
                               MockStudent.getStaticInstance(
-                                        id, first, last, dob);
-                    uni.students.add(nextStudent);
+                                        id, first, last, dob).clone();
+                    fileStudents.add((MockStudent)nextStudent);
                }
+               uni.students.addAll(fileStudents);
                
           }
           catch (Exception ex)
@@ -128,12 +128,10 @@ public class Initializer
      public boolean importPasswords() throws IOException
      {
           Boolean importPasswordsSuccessful = true;
-          File file = new File("data/passwords.dat");
-          //System.out.println("File was successfully opened" + file.exists());
-          //System.out.println(file.getAbsolutePath());
+          File file = new File("data/mockpasswords.dat");
           FileReader reader = null;
-          Password nextPassword;
-          ArrayList<Password> importPasswords = new ArrayList<Password>();
+          Object nextPassword;
+          ArrayList<Password> filePasswords = new ArrayList<Password>();
           try
           {
                reader = new FileReader(file);
@@ -149,10 +147,10 @@ public class Initializer
                     String password = record.values[2];
                     nextPassword = 
                               Password.getStaticInstance(
-                                        id, userName, password);
-                    importPasswords.add(nextPassword);
+                                        id, userName, password).clone();
+                    filePasswords.add((Password)nextPassword);
                }
-               uni.passwordManager.importPasswords(importPasswords);
+               uni.passwordManager.importPasswords(filePasswords);
           }
           catch (Exception ex)
           {

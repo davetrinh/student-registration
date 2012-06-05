@@ -27,6 +27,7 @@ public class PasswordManager implements Observer {
      private static PasswordManager pwdmanager = null;
 	private ArrayList<Password> passwords = new ArrayList<Password>();
 	private final int PASSWORD_MIN_LENGTH = 5;
+	private University uni;
 	
 /**
  * Constructor for singleton of PasswordManager, which is called only by
@@ -36,7 +37,7 @@ public class PasswordManager implements Observer {
  */
 	protected PasswordManager() 
 	{
-		//uni = University.getInstance();
+	//	uni = University.getInstance();
 	}
 
 	public static PasswordManager getInstance()
@@ -56,23 +57,23 @@ public class PasswordManager implements Observer {
 	 */
 	public void validateAllAccounts()
 	{
-		//ArrayList<Password> pwdsToBeDeleted = new ArrayList<Password>();
+		ArrayList<Password> pwdsToBeDeleted = new ArrayList<Password>();
 		
-		//for (Password p : passwords)
-		//{
-		//	if (!uni.hasStudent(p.getStudentID()))
-		//	{
-		//		//Add p to the list of passwords to be deleted. 
-		//		//This avoids having an exception thrown when deleting from the 
-		//		//collection while iterating over it.
-		//		pwdsToBeDeleted.add(p);
-		//	}
-		//}
+		for (Password p : passwords)
+		{
+			if (!uni.hasStudent(p.getStudentID()))
+			{
+				//Add p to the list of passwords to be deleted. 
+				//This avoids having an exception thrown when deleting from the 
+				//collection while iterating over it.
+				pwdsToBeDeleted.add(p);
+			}
+		}
 		
-		//for (Password r : pwdsToBeDeleted)
-		//{
-		//	passwords.remove(r);
-		//}		
+		for (Password r : pwdsToBeDeleted)
+		{
+			passwords.remove(r);
+		}		
 		//... note that this doesn't take care of the case where there are students 
 		//without passwords, which should be ok. There's an assumption that any 
 		//student record is created only after the student has logged in to the
@@ -191,7 +192,6 @@ public class PasswordManager implements Observer {
 		}
 	}
 	
-	
 	/**
 	 * Checks whether the given username is already in the Password 
 	 * collection.
@@ -211,7 +211,6 @@ public class PasswordManager implements Observer {
 		}
 		return false;
 	}
-
 
 	/**
 	 * Checks whether the given Student has a username + 
@@ -244,13 +243,13 @@ public class PasswordManager implements Observer {
 	 * @param passwords               password container from 
 	 *                                <code>Initializer</code>
 	 */
-	public void importPasswords(ArrayList<Password> passwords)
+	public void importPasswords(ArrayList<Password> filePasswords)
 	{
 	     if (systemStatus != SystemStatus.STARTING_UP)
 	          return;
-	     
+	     	     
 	     passwords.clear();
-	     passwords.addAll(passwords);
+	     this.passwords.addAll(filePasswords);
 	}
 	/**
 	 * Implements Observer pattern to stay synchronized with 
@@ -271,4 +270,24 @@ public class PasswordManager implements Observer {
           systemStatus = status;
      }
 	
+     /**
+      * Returns an ArrayList of <code>passwords</code> IF the program is
+      * in a testing state.
+      * 
+      * @author Alexandros Bantis
+      * @return                   If <code>!SystemStatus.TESTING</code> then
+      *                           program returns an empty container, otherwise
+      *                           returns <code>passwords</code>.
+      */
+     public ArrayList<Password> getAllPasswords()
+     {
+          if (systemStatus != SystemStatus.TESTING)
+               return new ArrayList<Password>();
+          else
+               return passwords;
+     }
+     
+     
+     
+     
 }
