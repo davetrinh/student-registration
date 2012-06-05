@@ -12,20 +12,20 @@ import org.junit.Before;
 import org.junit.Test;
 import com.x460dot10.b.mock.MockStudent;
 
-import com.x460dot10.b.registrar.Initializer;
+import com.x460dot10.b.registrar.StartupManager;
 import com.x460dot10.b.registrar.Observer;
 import com.x460dot10.b.registrar.Password;
 import com.x460dot10.b.registrar.Subject;
 import com.x460dot10.b.registrar.SystemStatus;
 
 /**
- * Tests methods of <code>Initializer</code>
+ * Tests methods of <code>StartupManager</code>
  * 
  * @author Alexandros Bantis
  */
 public class InitializerTest implements Subject
 {
-     Initializer program;
+     StartupManager program;
      ArrayList<MockStudent> expectedStudentsValid;
      ArrayList<Password> expectedPasswordsValid;
      ArrayList<Observer> observers;
@@ -36,7 +36,7 @@ public class InitializerTest implements Subject
      @Before
      public void setUp() throws Exception
      {
-          program = Initializer.getInstance();
+          program = StartupManager.getInstance();
           observers = new ArrayList<Observer>();
           registerObservers();
      }
@@ -102,7 +102,7 @@ public class InitializerTest implements Subject
      
      /**
       * Test method for 
-      * {@link com.x460dot10.b.registrar.Initializer#importStudents()}.
+      * {@link com.x460dot10.b.registrar.StartupManager#importStudents()}.
       */
      @Test
      public void importStudentsValidTest()
@@ -140,7 +140,7 @@ public class InitializerTest implements Subject
      
      /**
       * Test method for 
-      * {@link com.x460dot10.b.registrar.Initializer#importPasswords()}.
+      * {@link com.x460dot10.b.registrar.StartupManager#importPasswords()}.
       */
      @Test
      public void importPasswordsValidTest()

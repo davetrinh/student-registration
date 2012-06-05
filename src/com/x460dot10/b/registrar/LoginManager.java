@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class LoginManager {
 	
 	//private University uni;
-	private PasswordManager pwdmgr;
+	//private PasswordManager pwdmgr;
     private static LoginManager loginmgr;
     
  
@@ -98,12 +98,12 @@ public class LoginManager {
 			
 			username = this.getItemOfUserInput("Username");
 			password = this.getItemOfUserInput("Password");
-			studentID = pwdmgr.login(username, password);
+//			studentID = pwdmgr.login(username, password);
 		
 			loginAttempted = true;
 		} while (false/*!uni.hasStudent(studentID)*/);
 	
-		return studentID;
+		return -1; //		return studentID;
 	}
 	
 
@@ -193,7 +193,7 @@ public class LoginManager {
 			
 			if (itemTitle.equalsIgnoreCase(ITEM_TITLE_PASSWORD))
 			{
-				if (pwdmgr.isMinLength(userInput))
+				if (false)//(pwdmgr.isMinLength(userInput))
 				{
 					itemValue = userInput;
 				}else

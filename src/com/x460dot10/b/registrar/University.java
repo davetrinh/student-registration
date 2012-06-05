@@ -43,7 +43,12 @@ public class University implements Subject
      //public RegistrationManager registrationManager;
      protected ArrayList<Course> courses;
      protected ArrayList<MockStudent> students;
-
+     
+     public void startup()
+     {
+          
+     }
+     
      /**
       * Private default constructor for Singleton pattern
       */
@@ -132,55 +137,80 @@ public class University implements Subject
           else
                return true;
      }
-
-
      
      /**
-      * Adds a new <code>student</code> to <code>students</code> 
-      *
-      * @author Alexandros Bantis
-      * @param  first             First name
-      * @param  last              Last name
-      * @param  userID            UserID to login
-      * @param  password          Password to login
-      * @return                   <code>true</code> indicates student was
-      *                           successfully added else <code>false</code>
+      * Tests whether <code>University</code> should honor a request to create
+      * a new account. 
+      * 
+      * @author Alexandros Bantis        
+      * @param  first                       proposed student's first name
+      * @param  last                        proposed student's last name
+      * @param  dob                         proposed student's dob
+      * @return boolean                     <code>true</code> indicates the 
+      *                                     proposed record isn't a duplicate
+      *                                     while; if dob is not valid or three
+      *                                     parameters match an existing record
+      *                                     then will throw exception.
+      *                                     <code>students</code>
+      * @throws IllegalArgumentException    if the first, last, & dob match an
+      *                                     existing record in 
+      *                                     <code>students</code> the will
+      *                                     throw the exception
       */
-	@SuppressWarnings("finally")
-     public Boolean addStudent(String first, String last, String userID, 
-                               String password)
+     public boolean isValidNewStudentRecord(String first, 
+               String last, String dob) throws IllegalArgumentException 
      {
-          Student newStudent = null;
-          try
+          if (!MockStudent.dobIsValid(dob))
+               throw new IllegalArgumentException("Error: birthdate is not " +
+                         "valid format (mm-dd-yy");
+          for (MockStudent student : students)
           {
-        	  // int newStudentID;
-        	  // create a unique student ID and encapsulate password info 
-            // into a Password object
-        	  if (students != null)
-        	  {
-            //	  newStudentID = getLargestStudentID() + 1;
-        	  }
-        	  else
-        	  {
-        		//  newStudentID = 0;
-        	  }
-        	  // Password newStudentPwd = new Password(userID, password, 
-        	  // newStudentID);
-            // newStudent = new Student(first, last, newStudentID, 
-        	  // newStudentPwd);
-            //  students.add(newStudent);
+               if (student.hasSameName(first, last) &&
+                         student.getDOB().equals(dob))
+                    throw new IllegalArgumentException("Error: you're first " +
+                         "name, last name, and date of birth matches an " +
+                         "existing student record. Unable to create " +
+                         "new account ");
           }
-          catch (Exception ex)
-          {
-               ex.printStackTrace();
-          }
-          finally 
-          {
-               if (newStudent == null)
-                    return false;
-               else
-                    return true;
-          }
+          return true;
+     }
+     
+     /**
+      * Returns an <code>studentID</code> for a newly created account if no
+      * duplicate records would be created, data formatted correctly, and 
+      * follows password rules.
+      * <p>
+      * Creates a new <code>Student</code> and <code>Password</code> if there
+      * is no match to an existing student (same first name, last name, and
+      * date of birth), an existing password user name, the date
+      * of birth was entered correctly, and the password follows the password
+      * rules.
+      * 
+      * @author Alexandros Bantis
+      * @param  first        the proposed student's first name
+      * @param  last         the proposed student's last name
+      * @param  dob          the proposed student's date of birth, entered as
+      *                      a string in this format: mm-dd-yy
+      * @param  userName     the proposed student's login user name
+      * @param  password     the proposed student's login password
+      * @return              the newly created student's <code>studentID</code>
+      *                      else will return -1 and pass exception
+      */
+     public int createNewAccount(String first, String last, String dob,
+               String userName, String password)
+     {
+          final int INVALID_STUDENT_ID = -1;
+          
+          if (!(isValidNewStudentRecord(first, last, dob) &&
+                    passwordManager.isValidNewPasswordRecord(
+                              userName, password)))
+               return INVALID_STUDENT_ID;
+
+          MockStudent newStudent = new MockStudent(first, last, dob);
+          students.add(newStudent);
+          passwordManager.createNewPasswordRecord(
+                    newStudent.getID(), userName, password);
+          return newStudent.getID();
      }
 	
 	
@@ -242,7 +272,7 @@ public class University implements Subject
 
      /**
       * Returns list of all <code>students.studentID</code> so that 
-      * <code>Initializer</code> can validate that text file import is
+      * <code>StartupManager</code> can validate that text file import is
       * consistent with <code>passwordManager.passwords</code> and 
       * <code>registrationManager.registrations</code> 
       *

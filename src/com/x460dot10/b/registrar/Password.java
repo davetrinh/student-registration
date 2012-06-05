@@ -14,7 +14,7 @@ public class Password implements Cloneable {
 	protected String m_username;
 	protected int m_studentID;
 	/// a temporary object so that data can be imported from text files by
-	/// the Initializer into <code>PasswordManager.passwords</code>
+	/// the StartupManager into <code>PasswordManager.passwords</code>
 	public static Password staticPassword;
 
 
@@ -41,7 +41,7 @@ public class Password implements Cloneable {
 	
      /**
       * Sets the values of the static instance so that the text record
-      * can be imported into University.students by the Initializer.
+      * can be imported into University.students by the StartupManager.
 
       * @author alexandros bantis
       * @param  studentID         integer student ID number

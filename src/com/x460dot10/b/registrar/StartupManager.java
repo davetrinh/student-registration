@@ -1,5 +1,5 @@
 /**
- * Initializer.java
+ * StartupManager.java
  * ------------------------------------------------------------------------
  *
  * This program is free software; you can redistribute it and/or
@@ -35,19 +35,19 @@ import com.x460dot10.b.mock.MockStudent;
  * @author Alexandros Bantis
  * @version 1.2 Wed May 30 2012
  */
-public class Initializer
+public class StartupManager
 {
      public University uni;
-     private static Initializer initializer;
+     private static StartupManager startupMngr;
 
     /**
       * Singleton pattern constructor called at program startup
       */
-      public static Initializer getInstance()
+      public static StartupManager getInstance()
      {
-          if (initializer == null)
-               initializer = new Initializer();
-          return initializer;
+          if (startupMngr == null)
+               startupMngr = new StartupManager();
+          return startupMngr;
      }
 
      /**
@@ -59,7 +59,7 @@ public class Initializer
       *
       * @return             Indicates data files loaded with no errors
       */
-     private Initializer()
+     private StartupManager()
      {
           uni = University.getInstance();
           //Boolean studentImportSuccessful = importStudents();
@@ -302,7 +302,7 @@ public class Initializer
 
      public static void main(String[] args)
      {
-          Initializer initializer = Initializer.getInstance();
-          initializer.saveStudents();
+          StartupManager startupManager = StartupManager.getInstance();
+          startupManager.saveStudents();
      }
 }

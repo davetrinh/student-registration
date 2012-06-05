@@ -47,7 +47,7 @@ public class MockStudent extends Student implements Cloneable
      
      /**
       * Sets the values of the static instance so that the text record
-      * can be imported into University.students by the Initializer.
+      * can be imported into University.students by the StartupManager.
 
       * @author alexandros bantis
       * @param  studentID         integer student ID number
@@ -93,6 +93,11 @@ public class MockStudent extends Student implements Cloneable
           return dateOfBirth;
      }
      
+     public int getID()
+     {
+          return m_studentId;
+     }
+     
      public String toCSV()
      {
           StringBuilder export = new StringBuilder();
@@ -106,6 +111,19 @@ public class MockStudent extends Student implements Cloneable
           export.append(dateOfBirth);
           export.append('\"');
           return export.toString();
+     }
+     
+     public boolean hasSameName(String first, String last)
+     {
+          StringBuilder thisName = 
+                    new StringBuilder(this.m_firstName);
+          thisName.append(' ');
+          thisName.append(this.m_lastName);
+          StringBuilder otherName =
+                    new StringBuilder(first);
+          otherName.append(' ');
+          otherName.append(last);
+          return thisName.toString().equalsIgnoreCase(otherName.toString());
      }
      
      @Override

@@ -209,7 +209,7 @@ public class SessionManager {
 	private static SessionManager sessionManagerSingelton;
 	private static LoginManager  loginManagerSingleton;
 	private static RegistrationManager registrationManagerSingleton;
-	private static Initializer initializerSingleton;
+	private static StartupManager initializerSingleton;
 	protected String m_studentName;
 	protected Integer m_studentId;
 	

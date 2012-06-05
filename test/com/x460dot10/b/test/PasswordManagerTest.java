@@ -15,9 +15,9 @@ public class PasswordManagerTest {
 		University uni = University.getInstance();
 		PasswordManager pm = PasswordManager.getInstance();
 		
-		uni.addStudent("Mani", "Padme", "mani", "padme");
-		uni.addStudent("Karin", "Felton", "horace", "ccsfs");
-		uni.addStudent("Coren", "O'Rouke", "righto", "matey");
+//		uni.addStudent("Mani", "Padme", "mani", "padme");
+//		uni.addStudent("Karin", "Felton", "horace", "ccsfs");
+//		uni.addStudent("Coren", "O'Rouke", "righto", "matey");
 		
 		//add passwords to the collection
 		//(add one that isn't assoc w/any of these students)

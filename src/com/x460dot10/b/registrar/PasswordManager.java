@@ -236,12 +236,12 @@ public class PasswordManager implements Observer {
 	}
 
 	/**
-	 * Allows Initializer to populate passwords from <code>password.dat</code>
+	 * Allows StartupManager to populate passwords from <code>password.dat</code>
 	 * but will ignore request if not <code>SystemStatus.STARTING_UP</code>
 	 * 
 	 * @author Alexandros Bantis
 	 * @param passwords               password container from 
-	 *                                <code>Initializer</code>
+	 *                                <code>StartupManager</code>
 	 */
 	public void importPasswords(ArrayList<Password> filePasswords)
 	{
@@ -258,7 +258,7 @@ public class PasswordManager implements Observer {
 	 * @author Alexandros Bantis
 	 * @param status             possible values are:
 	 *                           STARTING_UP = can import records from
-	 *                                         <code>Initializer</code>
+	 *                                         <code>StartupManager</code>
 	 *                           RUNNING = program available for users.
 	 *                                     to log in.
 	 *                           SHUTTING_DOWN = system preparing to
@@ -285,6 +285,19 @@ public class PasswordManager implements Observer {
                return new ArrayList<Password>();
           else
                return passwords;
+     }
+
+     public boolean isValidNewPasswordRecord(String userName, String password)
+     {
+          // TODO Auto-generated method stub
+          return false;
+     }
+
+     public void createNewPasswordRecord(int id, String userName,
+               String password)
+     {
+          // TODO Auto-generated method stub
+          
      }
      
      

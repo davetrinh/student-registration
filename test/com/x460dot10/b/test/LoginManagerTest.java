@@ -38,7 +38,7 @@ public class LoginManagerTest {
 		
 		University uni;
 		uni = University.getInstance();
-		uni.addStudent("May", "Juin", "cornflower", "blues");
+//		uni.addStudent("May", "Juin", "cornflower", "blues");
 		
 		PasswordManager pm = PasswordManager.getInstance();
 		int studentID = pm.login("cornflower", "blues");
