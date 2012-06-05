@@ -168,37 +168,30 @@ public class SessionManager {
 			    // Print out the exception that occurred
 				System.out.println("Invalid selection! Please try again...");
 			}
-			System.out.println("User Entered: " + selection);
-			if(selection == 0 || selection > 5 )
-			{
-				System.out.println("Invalid selection! Please try again...");
-				success = false;
-			}
-			else
-			{
+			
+			switch(selection){
+			case 1: 
+				registrationManagerSingleton.showAllCourses();
+				break;
+			case 2: 
+				registrationManagerSingleton.showMyCourses(m_studentId);
+				break;
+			case 3: 
+				registerForCourse();
+				break;
+			case 4:
+				unregisterForCourse();
+				break;
+			case 5:
+				displayExitMessage();
+				initializerSingleton.shutDown();
 				success = true;
+				break;
+			default:
+				System.out.println("Invalid selection! Please try again...");
+				success = false;	
 			}
 		}
-		
-		switch(selection){
-		case 1: 
-			registrationManagerSingleton.showAllCourses();
-			break;
-		case 2: 
-			registrationManagerSingleton.showMyCourses(m_studentId);
-			break;
-		case 3: 
-			registerForCourse();
-			break;
-		case 4:
-			unregisterForCourse();
-			break;
-		case 5:
-			displayExitMessage();
-			initializerSingleton.shutDown();
-			break;
-		}
-		
 	}
 	// Display's interface to register for a course
 	public void displayExitMessage()
