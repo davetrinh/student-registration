@@ -2,12 +2,20 @@ package com.x460dot10.b.registrar;
 
 //implements Saveable (interface) 
 
+/**
+ * Container class for the login info (username, password) for a single student. 
+ * 
+ * @author Katie Gustafson
+ */
+
 public class Password {
 
-	private String m_password;
-	private String m_username;
-	private int m_studentID;
+	protected String m_password;
+	protected String m_username;
+	protected int m_studentID;
 	
+
+
 	public Password(String username, String password, int studentID)
 	{
 		this.m_password = password;
@@ -16,9 +24,13 @@ public class Password {
 	}
 	
 	
+	/**
+	 * @return	a String containing the username, password and student ID, in CSV format
+	 * 			and with username and password in double quotes
+	 */
 	public String toCSV()
 	{
-		return m_username + "," + m_password +"," + m_studentID;
+		return "\"" + m_username + "\",\"" + m_password +"\"," + m_studentID;
 	}
 	
 	

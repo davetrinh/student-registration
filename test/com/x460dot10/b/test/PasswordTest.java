@@ -11,10 +11,10 @@ public class PasswordTest {
 	@Test
 	public void testtoCSV() {
 		Password pwd = new Password("foo", "bar", 123);
-		assertEquals(pwd.toCSV(), "foo,bar,123");
+		assertEquals("\"foo\",\"bar\",123", pwd.toCSV());
 		
 		pwd = new Password("", "", 0);
-		assertEquals(pwd.toCSV(), ",,0");
+		assertEquals("\"\",\"\",0", pwd.toCSV());
 	}
 
 }
