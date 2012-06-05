@@ -2,9 +2,17 @@ package com.x460dot10.b.registrar;
 
 
 import java.util.ArrayList;
-//import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
-
+/**
+ * Stores all login information (username, password, and associated student
+ * ID) for the University. Is in charge of creating new Password records,
+ * storing existing Password records while the program is running, and 
+ * checking that these records correspond with the set of students in the 
+ * University. 
+ * 
+ * @author Katie Gustafson
+ */
 
 public class PasswordManager {
 
@@ -16,12 +24,17 @@ public class PasswordManager {
 	private final int PASSWORD_MIN_LENGTH = 5;
 
 	
+/**
+ * Constructor for singleton of PasswordManager, which is called only by
+ * PasswordManager.getInstance(). To instantiate a PasswordManager object,
+ * <code>PasswordManager pm;
+ * 	pm.getInstance();</code>
+ */
 	protected PasswordManager() 
 	{
 		uni = University.getInstance();
 	}
 
-	
 	public static PasswordManager getInstance()
 	{
 		if (pwdmanager == null)
@@ -32,6 +45,48 @@ public class PasswordManager {
 	}
 	
 	
+	/**
+	 * Deletes any password records in the class-level collection of passwords
+	 * for which there is no corresponding student record, in the 
+	 * University.students collection
+	 */
+	public void validateAllAccounts()
+	{
+		ArrayList<Password> pwdsToBeDeleted = new ArrayList<Password>();
+		
+		for (Password p : passwords)
+		{
+			if (!uni.hasStudent(p.getStudentID()))
+			{
+				//Add p to the list of passwords to be deleted. 
+				//This avoids having an exception thrown when deleting from the 
+				//collection while iterating over it.
+				pwdsToBeDeleted.add(p);
+			}
+		}
+		
+		for (Password r : pwdsToBeDeleted)
+		{
+			passwords.remove(r);
+		}		
+		//... note that this doesn't take care of the case where there are students 
+		//without passwords, which should be ok. There's an assumption that any 
+		//student record is created only after the student has logged in to the
+		//system for the first time.
+	}
+	
+	
+	/**
+	 * Creates a record in the Password collection for a particular 
+	 * Student, with a given username and password	
+	 * 
+	 * @param student	The Student for whom the username+password will be
+	 * 					stored
+	 * @param username	The chosen/assigned username
+	 * @param password	The chosen/assigned password
+	 * @return			<code>true</code> if the username+password record was
+	 * 					created in the Password collection
+	 */
 	public Boolean createPassword(Student student, String username, String password)
 	{
 		Password newPwd;
@@ -77,25 +132,95 @@ public class PasswordManager {
       		return true; 
 	}
 	
-	
-	private Boolean usernameIsUsed(String uname)
+
+	/**
+	 * Given the entered username and password, returns the student ID 
+	 * associated with that username+password pair.
+	 * 
+	 * @param username		The username entered by the user.
+	 * @param password		Password entered by the user.
+	 * @return studentID	The student ID of the user.
+	 */
+	public int login(String username, String password)
 	{
-		//for(Password pwd : passwords)
-		//{
-			//if (StringUtils.equals(uname, pwd.getUsername()))
-		//	{
-		//		return true;
-		//	}
-		//}
-		return false;
+		int studentID = -1;
+		
+		for (Password pwd : passwords)
+		{
+			if (StringUtils.equals(username, pwd.getUsername()) && 
+					StringUtils.equals(password,  pwd.getPassword()))
+			{
+				studentID = pwd.getStudentID();
+				break;
+			}
+		}
+
+		return studentID;
 	}
 
 	
+	/**
+	 * Checks that the length of the given password is at least as 
+	 * long as the minimum length for passwords.
+	 * 
+	 * @param 	password	The string whose length is to be checked.
+	 * @return 				<code>true</code> if the password is at least of
+	 * 						minimum length		
+	 */
+	public Boolean isMinLength(String password)
+	{
+		return (password.length() >= PASSWORD_MIN_LENGTH);
+	}
+	
+	
+	/**
+	 * Prints to the console each Password record, in the format that record 
+	 * appears in the passwords.dat file.
+	 * 
+	 * @see	List of Password records, e.g., "username","password",studentID
+	 */
+	public void printAllPwdRecords()
+	{
+		for (Password p : passwords)
+		{
+			System.out.println(p.toCSV());
+		}
+	}
+	
+	
+	/**
+	 * Checks whether the given username is already in the Password 
+	 * collection.
+	 * 
+	 * @param 	username	The username to be searched for
+	 * @return				<code>true</code> if the username is already in 
+	 * 						use
+	 */
+	private Boolean usernameIsUsed(String username)
+	{
+		for(Password pwd : passwords)
+		{
+			if (StringUtils.equals(username, pwd.getUsername()))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+	/**
+	 * Checks whether the given Student has a username + 
+	 * password in the Password collection.
+	 * 
+	 * @param 	stu	The Student for whom a "login" (i.e., 
+	 * 				username + password) may or may not exist.
+	 * @return		<code>true</code> if Student has a 				
+	 * 				username + password record.
+	 */
+	
 	private Boolean studentHasLogin(Student stu)
 	{
-		//for each pwd record
-			//if the studentID is in there
-				//return true
 		for (Password p : passwords)
 		{
 			if (p.getStudentID() == stu.getStudentId())
@@ -107,70 +232,4 @@ public class PasswordManager {
 		return false;
 	}
 	
-	
-	public Boolean isMinLength(String password)
-	{
-		return (password.length() >= PASSWORD_MIN_LENGTH);
-	}
-	
-	
-	//asks for username, password, and returns the student ID if the u+p are valid
-	public int login(String username, String password)
-	{
-		int studentID = -1;
-		
-		//find the username+pwd in the passwords collection
-		//if the login info is in the collection
-			//return the associated studentID
-		
-		//for each item in the arraylist
-			//if it has the matching username and password
-				//return the studentID
-		for (Password pwd : passwords)
-		{
-			//if (StringUtils.equals(username, pwd.getUsername()) && 
-			//		StringUtils.equals(password,  pwd.getPassword()))
-			{
-				studentID = pwd.getStudentID();
-				break;
-			}
-		}
-
-		return studentID;
-	}
-	
-	
-	// this deletes any password records for which there is no corresponding student record
-	public void validateAllAccounts()
-	{
-		ArrayList<Password> pwdsToBeDeleted = new ArrayList<Password>();
-		
-		for (Password p : passwords)
-		{
-			if (!uni.hasStudent(p.getStudentID()))
-			{
-				//add p to the list of pwds to be deleted. 
-				//Doing this to avoid exception thrown when deleting while iterating
-				pwdsToBeDeleted.add(p);
-			}
-		}
-		
-		for (Password r : pwdsToBeDeleted)
-		{
-			passwords.remove(r);
-		}		
-		//... note that this doesn't take care of the case where there are students without passwords, which should be ok
-	}
-
-
-	//used for testing
-	public void printAllPwdRecords()
-	{
-		for (Password p : passwords)
-		{
-			System.out.println(p.toCSV());
-		}
-	}
-	
 }
-
