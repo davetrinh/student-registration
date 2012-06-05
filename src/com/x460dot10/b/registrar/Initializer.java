@@ -21,6 +21,7 @@
 package com.x460dot10.b.registrar;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -79,8 +80,8 @@ public class Initializer
      {
           Boolean importStudentsSuccessful = true;
           File file = new File("data/mockstudents.dat");
-          System.out.println("File was successfully opened" + file.exists());
-          System.out.println(file.getAbsolutePath());
+          //System.out.println("File was successfully opened" + file.exists());
+          //System.out.println(file.getAbsolutePath());
           FileReader reader = null;
           MockStudent nextStudent;
           try
@@ -97,19 +98,12 @@ public class Initializer
                     String first = record.values[1];
                     String last = record.values[2];
                     String dob = record.values[3];
-                    
-//                    String idAsString = record.get("student_id");
-//                    Integer id = Integer.parseInt(idAsString);
-//                    String first = record.get("first_name");
-//                    String last = record.get("last_name");
-//                    String dob = record.get("dob");
                     nextStudent = 
-                              MockStudent.getStaticInstance(id, 
-                                        first, last, dob);
+                              MockStudent.getStaticInstance(
+                                        id, first, last, dob);
                     uni.students.add(nextStudent);
                }
                
-
           }
           catch (Exception ex)
           {
@@ -124,28 +118,41 @@ public class Initializer
           }
           return importStudentsSuccessful;
      }
-     
-     
+
      /**
       * Imports data/passwords.txt into <code>University.passwords</code>
       *
       * @return             Indicates import of passwords was successful
       * @throws IOException 
       */
-          public boolean importPasswords() throws IOException
+     public boolean importPasswords() throws IOException
      {
           Boolean importPasswordsSuccessful = true;
-          BufferedReader reader = null;
+          File file = new File("data/passwords.dat");
+          //System.out.println("File was successfully opened" + file.exists());
+          //System.out.println(file.getAbsolutePath());
+          FileReader reader = null;
+          Password nextPassword;
+          ArrayList<Password> importPasswords = new ArrayList<Password>();
           try
           {
-               reader = new BufferedReader(
-                   new FileReader("data/students.txt"));
-               Scanner scanner = new Scanner(reader);
-               while (scanner.hasNextLine())
+               reader = new FileReader(file);
+               CSVFormat format = CSVFormat.DEFAULT;
+               List<CSVRecord> records = 
+                         new CSVParser(reader, format).getRecords();
+
+               for (CSVRecord record : records)
                {
-                    //String line = scanner.nextLine();
-                    //uni.addStudent(Student.parseStudent(line));
-               }                         
+                    String idAsString = record.values[0];
+                    Integer id = Integer.parseInt(idAsString);
+                    String userName = record.values[1];
+                    String password = record.values[2];
+                    nextPassword = 
+                              Password.getStaticInstance(
+                                        id, userName, password);
+                    importPasswords.add(nextPassword);
+               }
+               uni.passwordManager.importPasswords(importPasswords);
           }
           catch (Exception ex)
           {
@@ -159,8 +166,9 @@ public class Initializer
                     reader.close();
           }
           return importPasswordsSuccessful;
-     }          
+     }
 
+ 
      /**
       * Imports data/courses.txt into <code>University.courses</code>
       *

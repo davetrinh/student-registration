@@ -31,9 +31,12 @@ import com.x460dot10.b.mock.MockStudent;
  * @author Alexandros Bantis
  * @version 1.2 Wed May 30 2012
  */
-public class University 
+public class University implements Subject
 {
      static University uni;
+     
+     private ArrayList<Observer> observers;
+     private SystemStatus systemStatus;
      public LoginManager loginManager;
      public PasswordManager passwordManager;
      public SessionManager sessionManager;
@@ -45,12 +48,15 @@ public class University
       * Private default constructor for Singleton pattern
       */
      private University () {
-    	 students = new ArrayList<MockStudent>();
-    	 courses = new ArrayList<Course>();
-    	 // loginManager = LoginManager.getInstance();
-    	 // passwordManager = PasswordManager.getInstance();
-    	 // sessionManager = SessionManager.getInstance();
-    	 // registrationManager = RegistrationManager.getInstance();
+          observers = new ArrayList<Observer>();
+          registerManagersAsObservers();
+          setStatus(SystemStatus.STARTING_UP);
+          students = new ArrayList<MockStudent>();
+          courses = new ArrayList<Course>();
+          loginManager = LoginManager.getInstance();
+          passwordManager = PasswordManager.getInstance();
+          sessionManager = SessionManager.getInstance();
+          // registrationManager = RegistrationManager.getInstance();
      }
 
      /**
@@ -63,6 +69,35 @@ public class University
           return uni;
      }
 
+
+     /**
+      * Using the Observer pattern, registers all the Managers to receive
+      * updates regarding changes to the <code>University.SystemStatus</code> 
+      */
+     void registerManagersAsObservers()
+     {
+          if (!observers.isEmpty())
+               return;
+          
+          observers.add((Observer)loginManager);
+          observers.add((Observer)passwordManager);
+          observers.add((Observer)sessionManager);
+          //observers.add((Observer)registrationManager);
+     }
+     
+     public void notifyObservers()
+     {
+          for (Observer observer : observers)
+               observer.update(systemStatus);
+     }
+     
+     private void setStatus(SystemStatus newStatus)
+     {
+          systemStatus = newStatus;
+          notifyObservers();
+     }
+     
+     
      /**
       * Adds a new <code>course</code> to <code>courses</code> 
       *
@@ -97,6 +132,8 @@ public class University
                return true;
      }
 
+
+     
      /**
       * Adds a new <code>student</code> to <code>students</code> 
       *

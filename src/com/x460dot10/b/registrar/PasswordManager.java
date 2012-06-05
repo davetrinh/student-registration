@@ -14,15 +14,19 @@ import org.apache.commons.lang3.StringUtils;
  * @author Katie Gustafson
  */
 
-public class PasswordManager {
+public class PasswordManager implements Observer {
 
-	private static PasswordManager pwdmanager = null;
+     /**
+      * Implementation of Observer pattern, ensuring that all Managers know
+      * changes to <code>SystemStatus</code> of <code>University</code>
+      * 
+      * @author Alexandros Bantis
+      */
+     private SystemStatus systemStatus;
+
+     private static PasswordManager pwdmanager = null;
 	private ArrayList<Password> passwords = new ArrayList<Password>();
-	
-	private University uni;
-	
 	private final int PASSWORD_MIN_LENGTH = 5;
-
 	
 /**
  * Constructor for singleton of PasswordManager, which is called only by
@@ -32,7 +36,7 @@ public class PasswordManager {
  */
 	protected PasswordManager() 
 	{
-		uni = University.getInstance();
+		//uni = University.getInstance();
 	}
 
 	public static PasswordManager getInstance()
@@ -52,23 +56,23 @@ public class PasswordManager {
 	 */
 	public void validateAllAccounts()
 	{
-		ArrayList<Password> pwdsToBeDeleted = new ArrayList<Password>();
+		//ArrayList<Password> pwdsToBeDeleted = new ArrayList<Password>();
 		
-		for (Password p : passwords)
-		{
-			if (!uni.hasStudent(p.getStudentID()))
-			{
-				//Add p to the list of passwords to be deleted. 
-				//This avoids having an exception thrown when deleting from the 
-				//collection while iterating over it.
-				pwdsToBeDeleted.add(p);
-			}
-		}
+		//for (Password p : passwords)
+		//{
+		//	if (!uni.hasStudent(p.getStudentID()))
+		//	{
+		//		//Add p to the list of passwords to be deleted. 
+		//		//This avoids having an exception thrown when deleting from the 
+		//		//collection while iterating over it.
+		//		pwdsToBeDeleted.add(p);
+		//	}
+		//}
 		
-		for (Password r : pwdsToBeDeleted)
-		{
-			passwords.remove(r);
-		}		
+		//for (Password r : pwdsToBeDeleted)
+		//{
+		//	passwords.remove(r);
+		//}		
 		//... note that this doesn't take care of the case where there are students 
 		//without passwords, which should be ok. There's an assumption that any 
 		//student record is created only after the student has logged in to the
@@ -231,5 +235,40 @@ public class PasswordManager {
 		
 		return false;
 	}
+
+	/**
+	 * Allows Initializer to populate passwords from <code>password.dat</code>
+	 * but will ignore request if not <code>SystemStatus.STARTING_UP</code>
+	 * 
+	 * @author Alexandros Bantis
+	 * @param passwords               password container from 
+	 *                                <code>Initializer</code>
+	 */
+	public void importPasswords(ArrayList<Password> passwords)
+	{
+	     if (systemStatus != SystemStatus.STARTING_UP)
+	          return;
+	     
+	     passwords.clear();
+	     passwords.addAll(passwords);
+	}
+	/**
+	 * Implements Observer pattern to stay synchronized with 
+	 * <code>SystemStatus</code> of the <code>University</code>.
+	 * 
+	 * @author Alexandros Bantis
+	 * @param status             possible values are:
+	 *                           STARTING_UP = can import records from
+	 *                                         <code>Initializer</code>
+	 *                           RUNNING = program available for users.
+	 *                                     to log in.
+	 *                           SHUTTING_DOWN = system preparing to
+	 *                                           shut down by saving data.
+	 */
+     @Override
+     public void update(SystemStatus status)
+     {
+          systemStatus = status;
+     }
 	
 }
