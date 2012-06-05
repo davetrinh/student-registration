@@ -16,8 +16,9 @@ public class LoginManager {
 	//private University uni;
 	//private PasswordManager pwdmgr;
     private static LoginManager loginmgr;
+    private Applicant newStudent;
     
- 
+    
     /**
      * Constructor for singleton of LoginManager, which is called only by
      * LoginManager.getInstance(). To instantiate a LoginManager object,
@@ -45,7 +46,7 @@ public class LoginManager {
      * prompts.
      * (This is kind of a confusing method name)
      */
-	public void displayLoginScreen()
+	public SystemStatus displayWelcomeScreen()
 	{
 		String userAnswer;
 		final String YES_ANSWER = "y";
@@ -61,13 +62,15 @@ public class LoginManager {
 
 			if (userAnswer.equalsIgnoreCase(YES_ANSWER))
 			{
-				this.runNewStudent();
-				break;
+			     return SystemStatus.NEW_ACCOUNT_REQUEST;
+//			     this.runNewStudent();
+//				break;
 			}else if (userAnswer.equalsIgnoreCase(NO_ANSWER))
 			{
-				int currentStudentID = promptStudentLogin();
-				this.runCurrentStudent(currentStudentID);
-				break;
+			     return SystemStatus.LOGIN_REQUEST;
+//				int currentStudentID = promptStudentLogin();
+//				this.runCurrentStudent(currentStudentID);
+//				break;
 			}
 		}
 	}
@@ -79,10 +82,9 @@ public class LoginManager {
 	 * 
 	 * @return	student ID of the student who logged in
 	 */
-	private int promptStudentLogin()
+	public int displayLoginScreen()
 	{
 		int studentID;
-		
 		String username; 
 		String password;
 		
@@ -138,8 +140,28 @@ public class LoginManager {
 	 * password) and adds the new student's record to the University.
 	 * Then logs the new student into the system.
 	 */
-	private void runNewStudent()
-	{		
+	public Applicant getNewStudent(String msg)
+	{
+	     if (msg.length() > 0)
+	     {
+	          System.out.println("I'm Sorry, but there was an error in " + 
+	                    "processing your request. The error was: " + msg);
+	          System.out.println("Please re-enter your information.");
+	     }
+	     
+	     String firstName = getItemOfNewStudentInfo("First name");
+	     String lastName = getItemOfNewStudentInfo("Last name");
+	     String dob = getItemOfNewStudentInfo("Date of Birth (mm-dd-yy)");
+	     String userName = getItemOfNewStudentInfo("Username");
+	     String password = getItemOfNewStudentInfo("Password");
+	     
+	     newStudent = new Applicant(firstName, lastName, dob, 
+	               userName, password);
+	     return newStudent;
+	     }
+	     
+	     
+	     
 //		String firstName = "";
 //		String lastName = "";
 //		String username = "";
@@ -166,7 +188,7 @@ public class LoginManager {
 //		
 //		studentID = pwdmgr.login(username, password);
 //		runCurrentStudent(studentID);
-	}
+//	}
 
 	
 	/**

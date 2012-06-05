@@ -37,17 +37,36 @@ public class University implements Subject
      
      private ArrayList<Observer> observers;
      private SystemStatus systemStatus;
-     public LoginManager loginManager;
-     public PasswordManager passwordManager;
+     public StartupManager startupMngr;
+     public LoginManager loginMngr;
+     public PasswordManager pwdMngr;
      public SessionManager sessionManager;
      //public RegistrationManager registrationManager;
      protected ArrayList<Course> courses;
      protected ArrayList<MockStudent> students;
      
-     public void startup()
+     public void initStartup()
      {
-          
+          setStatus(startupMngr.runStartUp());
      }
+     
+     public void initLoginScreen()
+     {
+          setStatus(loginMngr.displayWelcomeScreen());
+     }
+     
+     public void initNewStudent(String msg)
+     {
+          Applicant applicant = loginMngr.getNewStudent(msg);
+          if (createNewAccount(applicant))
+          {
+               
+          }
+     }
+     
+     
+     
+     
      
      /**
       * Private default constructor for Singleton pattern
@@ -55,14 +74,14 @@ public class University implements Subject
      private University () {
           students = new ArrayList<MockStudent>();
           courses = new ArrayList<Course>();
-          loginManager = LoginManager.getInstance();
-          passwordManager = PasswordManager.getInstance();
+          startupMngr = StartupManager.getInstance();
+          loginMngr = LoginManager.getInstance();
+          pwdMngr = PasswordManager.getInstance();
           sessionManager = SessionManager.getInstance();
           // registrationManager = RegistrationManager.getInstance();
           observers = new ArrayList<Observer>();
           registerManagersAsObservers();
           setStatus(SystemStatus.STARTING_UP);
-
      }
 
      /**
@@ -86,7 +105,7 @@ public class University implements Subject
                return;
           
           //observers.add((Observer)loginManager);
-          observers.add((Observer)passwordManager);
+          observers.add((Observer)pwdMngr);
           //observers.add((Observer)sessionManager);
           //observers.add((Observer)registrationManager);
      }
@@ -196,21 +215,27 @@ public class University implements Subject
       * @return              the newly created student's <code>studentID</code>
       *                      else will return -1 and pass exception
       */
-     public int createNewAccount(String first, String last, String dob,
-               String userName, String password)
+     public boolean createNewAccount(Applicant applicant)
      {
-          final int INVALID_STUDENT_ID = -1;
-          
-          if (!(isValidNewStudentRecord(first, last, dob) &&
-                    passwordManager.isValidNewPasswordRecord(
-                              userName, password)))
-               return INVALID_STUDENT_ID;
+          if (!(isValidNewStudentRecord(
+                    applicant.getFirstName(), 
+                    applicant.getLastName(), 
+                    applicant.getDOB()) &&
+                    pwdMngr.isValidNewPasswordRecord(
+                             applicant.getUserName(), 
+                             applicant.getPassword())))
+               return false;
 
-          MockStudent newStudent = new MockStudent(first, last, dob);
+          MockStudent newStudent = new MockStudent(
+                    applicant.getFirstName(), 
+                    applicant.getLastName(), 
+                    applicant.getDOB());
           students.add(newStudent);
-          passwordManager.createNewPasswordRecord(
-                    newStudent.getID(), userName, password);
-          return newStudent.getID();
+          pwdMngr.createNewPasswordRecord(
+                    newStudent.getID(), 
+                    applicant.getUserName(), 
+                    applicant.getPassword());
+          return true;
      }
 	
 	
@@ -273,7 +298,7 @@ public class University implements Subject
      /**
       * Returns list of all <code>students.studentID</code> so that 
       * <code>StartupManager</code> can validate that text file import is
-      * consistent with <code>passwordManager.passwords</code> and 
+      * consistent with <code>pwdMngr.passwords</code> and 
       * <code>registrationManager.registrations</code> 
       *
       * @author alexandros bantis

@@ -61,7 +61,7 @@ public class StartupManager
       */
      private StartupManager()
      {
-          uni = University.getInstance();
+          // uni = University.getInstance();
           //Boolean studentImportSuccessful = importStudents();
           //Boolean passwordImportSuccessful = importPasswords();
           //Boolean courseImportSuccessful = importCourses();
@@ -70,13 +70,36 @@ public class StartupManager
      //     return false;
      }
 
+     public SystemStatus runStartUp()
+     {
+          if (runImport() && runValidation())
+               return SystemStatus.READY_FOR_LOGIN;
+          else
+               return SystemStatus.ERROR;
+     }
+     
+     private boolean runImport()
+     {
+          if (importStudents() && importPasswords())
+               return true;
+          else
+               return false;
+          
+     }
+     
+     private boolean runValidation()
+     {
+          return false;
+     }
+     
+     
      /**
       * Imports data/students.txt into <code>University.students</code>
       *
       * @return             Indicates import of students was successful
       * @throws IOException 
       */
-     public boolean importStudents() throws IOException
+     public boolean importStudents() //throws IOException
      {
           Boolean importStudentsSuccessful = true;
           File file = new File("data/mockstudents.dat");
@@ -114,7 +137,14 @@ public class StartupManager
           finally
           {
                if (reader != null)
-                    reader.close();
+                    try
+                    {
+                         reader.close();
+                    } catch (IOException e)
+                    {
+                         // TODO Auto-generated catch block
+                         e.printStackTrace();
+                    }
           }
           return importStudentsSuccessful;
      }
@@ -125,7 +155,7 @@ public class StartupManager
       * @return             Indicates import of passwords was successful
       * @throws IOException 
       */
-     public boolean importPasswords() throws IOException
+     public boolean importPasswords() //throws IOException
      {
           Boolean importPasswordsSuccessful = true;
           File file = new File("data/mockpasswords.dat");
@@ -150,7 +180,7 @@ public class StartupManager
                                         id, userName, password).clone();
                     filePasswords.add((Password)nextPassword);
                }
-               uni.passwordManager.importPasswords(filePasswords);
+               uni.pwdMngr.importPasswords(filePasswords);
           }
           catch (Exception ex)
           {
@@ -161,7 +191,14 @@ public class StartupManager
           finally
           {
                if (reader != null)
-                    reader.close();
+                    try
+                    {
+                         reader.close();
+                    } catch (IOException e)
+                    {
+                         // TODO Auto-generated catch block
+                         e.printStackTrace();
+                    }
           }
           return importPasswordsSuccessful;
      }

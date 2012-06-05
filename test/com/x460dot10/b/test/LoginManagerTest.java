@@ -27,23 +27,23 @@ public class LoginManagerTest {
 		
 		//right now, this just runs this method so we can test it by using it. 
 		//won't work until University.addStudent works.
-		lm.displayLoginScreen();
+		lm.displayWelcomeScreen();
 	}
 	
-	@Test
-	public void testRunCurrentStudent()
-	{
-		//add students to uni
-		//try to log in as a student
-		
-		University uni;
-		uni = University.getInstance();
+//	@Test
+//	public void testRunCurrentStudent()
+//	{
+//		//add students to uni
+//		//try to log in as a student
+//		
+//		University uni;
+//		uni = University.getInstance();
 //		uni.addStudent("May", "Juin", "cornflower", "blues");
-		
-		PasswordManager pm = PasswordManager.getInstance();
-		int studentID = pm.login("cornflower", "blues");
-		
-		System.out.println("student ID: " + studentID);
-		//will want to call displayLoginScreen to test whether this student can log in, once added. ?
-	}
+//		
+//		PasswordManager pm = PasswordManager.getInstance();
+//		int studentID = pm.login("cornflower", "blues");
+//		
+//		System.out.println("student ID: " + studentID);
+//		//will want to call displayLoginScreen to test whether this student can log in, once added. ?
+//	}
 }

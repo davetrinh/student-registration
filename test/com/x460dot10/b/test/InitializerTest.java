@@ -53,7 +53,7 @@ public class InitializerTest implements Subject
                return;
           
           //observers.add((Observer)program.uni.loginManager);
-          observers.add((Observer)program.uni.passwordManager);
+          observers.add((Observer)program.uni.pwdMngr);
           //observers.add((Observer)registrationManager);
      }     
      
@@ -155,7 +155,7 @@ public class InitializerTest implements Subject
                /// return <code>PasswordManager.passwords</code>
                notifyObservers();
                ArrayList<Password> actualPasswords = 
-                         program.uni.passwordManager.getAllPasswords();
+                         program.uni.pwdMngr.getAllPasswords();
                assertEquals(
                          expectedPasswordsValid.size(),
                          actualPasswords.size());

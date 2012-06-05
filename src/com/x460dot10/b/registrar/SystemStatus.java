@@ -12,5 +12,14 @@ package com.x460dot10.b.registrar;
  */
 public enum SystemStatus
 {
-     STARTING_UP, RUNNING, SHUTTING_DOWN, TESTING;
+     TESTING,
+     SLEEPING,
+     STARTING_UP,
+     READY_FOR_LOGIN,
+     NEW_ACCOUNT_REQUEST,
+     LOGIN_REQUEST,
+     RUNNING, 
+     SHUTTING_DOWN,
+     ERROR,
+     QUIT;
 }
